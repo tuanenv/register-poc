@@ -28,6 +28,8 @@ export function renderNavigation({
     throw new Error(`Navigation target #${targetId} was not found.`);
   }
 
+  ensureNavigationStyles();
+
   const normalizedRole = String(role || '').toLowerCase();
   const allowedRoles = ['admin', 'editor', 'viewer'];
   if (!allowedRoles.includes(normalizedRole)) {
@@ -78,6 +80,19 @@ export function renderNavigation({
   });
 }
 
+function ensureNavigationStyles() {
+  const styleId = 'register-poc-navigation-styles';
+
+  if (document.getElementById(styleId)) {
+    return;
+  }
+
+  const style = document.createElement('style');
+  style.id = styleId;
+  style.textContent = getNavigationCss();
+  document.head.appendChild(style);
+}
+
 export function getNavigationCss() {
   return `
     .brand{position:relative;display:flex;gap:12px;align-items:center;margin-bottom:34px}
@@ -90,9 +105,9 @@ export function getNavigationCss() {
     .nav:hover,.nav.active{background:#ffffff1d;opacity:1}.nav.disabled{opacity:.35;pointer-events:none}
     .nav small{margin-left:auto;font-size:9px}.dot{width:8px;height:8px;border-radius:50%;background:#67d5e8}
     .userbox{position:absolute;left:17px;right:17px;bottom:20px;padding-top:14px;border-top:1px solid #ffffff22;font-size:12px}
-    .userbox strong{display:block;margin-bottom:3px;word-break:break-word}.userbox span{display:block;opacity:.75}
-    .side-signout{width:100%;margin-top:11px;padding:8px 10px;border:1px solid #ffffff45;border-radius:8px;background:#ffffff12;color:#fff;font-weight:750;cursor:pointer}
-    .side-signout:hover{background:#ffffff22}`;
+    .userbox{line-height:1.45}.userbox strong{display:block;margin-bottom:3px;word-break:break-word;color:#fff}.userbox span{display:block;opacity:.78;color:#fff}
+    .side-signout{appearance:none;-webkit-appearance:none;display:block;width:100%;min-height:38px;margin:11px 0 0;padding:8px 10px;border:1px solid #ffffff45;border-radius:8px;background:#ffffff12;color:#fff;font:inherit;font-size:12px;font-weight:750;line-height:1.2;text-align:center;cursor:pointer;box-shadow:none}
+    .side-signout:hover{background:#ffffff22}.side-signout:focus-visible{outline:2px solid #fff;outline-offset:2px}.side-signout:disabled{cursor:not-allowed;opacity:.55}`;
 }
 
 function escapeHtml(value) {
