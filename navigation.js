@@ -192,6 +192,25 @@ export function renderNavigation({
   );
 }
 
+function ensureNavigationStyles() {
+  const styleId =
+    "register-poc-navigation-styles";
+
+  if (document.getElementById(styleId)) {
+    return;
+  }
+
+  const style =
+    document.createElement("style");
+
+  style.id = styleId;
+  style.textContent =
+    getNavigationCss();
+
+  document.head.appendChild(style);
+}
+
+
 /**
  * ใส่ CSS กลางของ Navigation ลงในหน้าเว็บ
  * ทำเพียงครั้งเดียวต่อหน้า
