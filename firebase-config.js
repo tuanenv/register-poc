@@ -12,7 +12,8 @@ export const firebaseConfig = Object.freeze({
 export const firebaseCollections = Object.freeze({
   guests: "guests",
   imports: "imports",
-  connectionTests: "connection_tests"
+  connectionTests: "connection_tests",
+  seats: "seats"
 });
 
 export function isFirebaseConfigReady(config = firebaseConfig) {
