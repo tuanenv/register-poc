@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Seating Setup | Register POC</title>
+<style>
+:root{--primary:#2679bc;--dark:#103b61;--mid:#194f7d;--bg:#f5f7f9;--text:#18212f;--muted:#667085;--border:#d9dee5;--green:#067647;--green-bg:#ecfdf3;--red:#b42318;--red-bg:#fef3f2;--amber:#b54708;--amber-bg:#fffaeb;--shadow:0 8px 26px rgba(16,24,40,.07)}*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",Tahoma,"Noto Sans Thai",sans-serif;background:var(--bg);color:var(--text)}button{font:inherit;cursor:pointer}.shell{min-height:100vh;display:grid;grid-template-columns:245px minmax(0,1fr)}.side{position:sticky;top:0;height:100vh;padding:22px 17px;color:#fff;background:linear-gradient(180deg,var(--mid),var(--dark))}.main{min-width:0}.top{padding:18px 26px;background:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}.top h1{margin:2px 0 0;font-size:23px}.eyebrow{font-size:12px;color:var(--muted)}.status{font-size:12px;color:var(--muted)}.content{max-width:1300px;margin:auto;padding:24px 26px 50px}.hero{padding:23px 25px;border-radius:17px;color:#fff;background:linear-gradient(135deg,var(--primary),var(--mid));box-shadow:var(--shadow)}.hero h2{margin:0 0 7px}.hero p{margin:0;opacity:.84;font-size:13px;line-height:1.6}.card{margin-top:17px;background:#fff;border:1px solid var(--border);border-radius:15px;box-shadow:var(--shadow);overflow:hidden}.head{padding:18px 20px;border-bottom:1px solid var(--border)}.head h3{margin:0 0 5px}.head p{margin:0;color:var(--muted);font-size:12px}.body{padding:20px}.summary{display:grid;grid-template-columns:repeat(5,minmax(130px,1fr));gap:11px}.box{padding:14px;border-radius:11px;background:#f6f8fa;text-align:center}.box span{display:block;color:var(--muted);font-size:11px}.box strong{display:block;margin-top:5px;font-size:25px}.zones{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}.zone{padding:13px;border:1px solid var(--border);border-radius:10px}.zone strong,.zone span{display:block}.zone span{margin-top:4px;color:var(--muted);font-size:11px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn{padding:10px 16px;border:1px solid #cfd6df;border-radius:9px;background:#fff;color:#344054;font-weight:750}.btn.primary{border-color:var(--primary);background:var(--primary);color:#fff}.btn:disabled{opacity:.45;cursor:not-allowed}.progress{height:10px;margin-top:17px;border-radius:999px;background:#eaecf0;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--primary),#56b5df);transition:.2s}.message{display:none;margin-top:14px;padding:12px 14px;border-radius:9px;font-size:12px;white-space:pre-wrap}.message.show{display:block}.message.good{background:var(--green-bg);color:var(--green)}.message.bad{background:var(--red-bg);color:var(--red)}.message.warn{background:var(--amber-bg);color:var(--amber)}.foot{margin-top:16px;color:var(--muted);font-size:11px;line-height:1.6}@media(max-width:1050px){.shell{grid-template-columns:1fr}.side{display:none}.summary{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.content,.top{padding-left:14px;padding-right:14px}.zones,.summary{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside id="appSidebar" class="side"></aside>
+<main class="main">
+<header class="top"><div><div class="eyebrow">ระบบจัดการลงทะเบียน</div><h1>Seating Setup</h1></div><div class="status" id="statusText">กำลังตรวจสอบสิทธิ์...</div></header>
+<div class="content">
+<section class="hero"><h2>Initialize Concert Seating</h2><p>สร้างโครงสร้างที่นั่ง 20 แถว แถวละ 20 ที่นั่ง แบ่งฝั่งซ้ายและขวา รวม 400 ตำแหน่ง ขั้นตอนนี้ใช้สำหรับ Admin และสร้างเฉพาะที่นั่งที่ยังไม่มีใน Firestore</p></section>
+<section class="card"><div class="head"><h3>โครงสร้างที่นั่ง</h3><p>ตรวจสอบจำนวนและ Zone ก่อนกด Initialize</p></div><div class="body">
+<div class="summary"><div class="box"><span>แถวทั้งหมด</span><strong>20</strong></div><div class="box"><span>ที่นั่งต่อแถว</span><strong>20</strong></div><div class="box"><span>ฝั่งซ้าย</span><strong>10</strong></div><div class="box"><span>ฝั่งขวา</span><strong>10</strong></div><div class="box"><span>รวมทั้งหมด</span><strong>400</strong></div></div>
+<div class="zones"><div class="zone"><strong>VVIP</strong><span>แถว 01 · 20 ที่นั่ง</span></div><div class="zone"><strong>VIP</strong><span>แถว 02 · 20 ที่นั่ง</span></div><div class="zone"><strong>Zone A</strong><span>แถว 03-11 · 180 ที่นั่ง</span></div><div class="zone"><strong>Zone B</strong><span>แถว 12-20 · 180 ที่นั่ง</span></div></div>
+<div class="actions"><button id="inspectBtn" class="btn" disabled>ตรวจสอบข้อมูลเดิม</button><button id="initializeBtn" class="btn primary" disabled>Initialize 400 Seats</button></div>
+<div class="progress"><div id="progressBar" class="bar"></div></div>
+<div id="message" class="message"></div>
+<div class="foot">ระบบจะตรวจ Document ID ก่อนสร้าง จึงสามารถกดซ้ำได้โดยไม่สร้าง Seat ซ้ำ และจะไม่แก้ไข Seat Document ที่มีอยู่แล้ว</div>
+</div></section>
+</div>
+</main>
+</div>
+<script type="module">
+import {firebaseConfig,firebaseCollections,isFirebaseConfigReady} from './firebase-config.js';
+import {renderNavigation} from './navigation.js';
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+import {getAuth,onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+import {getFirestore,collection,getDocs,doc,writeBatch,serverTimestamp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+const $=id=>document.getElementById(id);let auth,db,user,role,existingIds=new Set();
+$('inspectBtn').onclick=inspectSeats;$('initializeBtn').onclick=initializeSeats;
+if(!isFirebaseConfigReady(firebaseConfig)){show('Firebase Configuration ยังไม่พร้อม','bad')}else{const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);onAuthStateChanged(auth,async currentUser=>{if(!currentUser){location.replace('index.html');return}user=currentUser;const token=await user.getIdTokenResult(true);role=String(token.claims.role||'').toLowerCase();if(role!=='admin'){await signOut(auth);location.replace('index.html?error=unauthorized');return}renderNavigation({activePage:'seating',user,role});$('statusText').textContent='Admin พร้อมใช้งาน';$('inspectBtn').disabled=false;$('initializeBtn').disabled=false;await inspectSeats()})}
+function buildSeats(){const seats=[];for(let row=1;row<=20;row++){const zone=row===1?{code:'VVIP',name:'VVIP'}:row===2?{code:'VIP',name:'VIP'}:row<=11?{code:'A',name:'Zone A'}:{code:'B',name:'Zone B'};for(const side of ['left','right']){const sideCode=side==='left'?'L':'R';for(let number=1;number<=10;number++){const rowLabel=String(row).padStart(2,'0'),seatLabel=sideCode+String(number).padStart(2,'0'),seatId=`${zone.code}-R${rowLabel}-${seatLabel}`;seats.push({seatId,zoneCode:zone.code,zoneName:zone.name,rowNumber:row,rowLabel,side,seatNumber:number,seatLabel,displayLabel:`${zone.name} · แถว ${rowLabel} · ${seatLabel}`,guestId:null,guestName:null,status:'available',active:true})}}}return seats}
+async function inspectSeats(){setBusy(true);show('กำลังตรวจสอบ Collection seats...','warn');try{const snapshot=await getDocs(collection(db,firebaseCollections.seats));existingIds=new Set(snapshot.docs.map(x=>x.id));const missing=400-existingIds.size;show(`พบ Seat เดิม ${existingIds.size} รายการ\nยังขาด ${Math.max(0,missing)} รายการ`,'good');$('progressBar').style.width=Math.min(100,existingIds.size/400*100)+'%'}catch(error){show((error.code||'error')+': '+error.message,'bad')}finally{setBusy(false)}}
+async function initializeSeats(){if(!confirm('สร้าง Seat ที่ยังไม่มีให้ครบ 400 ตำแหน่งใช่หรือไม่'))return;setBusy(true);show('กำลังเตรียมข้อมูลที่นั่ง...','warn');try{await inspectExistingForCreate();const missing=buildSeats().filter(x=>!existingIds.has(x.seatId));if(!missing.length){$('progressBar').style.width='100%';show('โครงสร้างที่นั่งครบ 400 ตำแหน่งแล้ว ไม่มีรายการต้องสร้าง','good');return}const batch=writeBatch(db);missing.forEach(seat=>batch.set(doc(db,firebaseCollections.seats,seat.seatId),{...seat,createdAt:serverTimestamp(),createdBy:user.uid,updatedAt:serverTimestamp(),updatedBy:user.uid,updatedByEmail:user.email||null}));await batch.commit();$('progressBar').style.width='100%';show(`Initialize สำเร็จ\nสร้างใหม่ ${missing.length} รายการ\nที่มีอยู่เดิม ${existingIds.size} รายการ\nรวม 400 รายการ`,'good');await inspectExistingForCreate()}catch(error){show((error.code||'error')+': '+error.message,'bad')}finally{setBusy(false)}}
+async function inspectExistingForCreate(){const snapshot=await getDocs(collection(db,firebaseCollections.seats));existingIds=new Set(snapshot.docs.map(x=>x.id))}
+function setBusy(value){$('inspectBtn').disabled=value;$('initializeBtn').disabled=value}
+function show(text,type){$('message').textContent=text;$('message').className='message show '+type}
+</script>
+</body></html>
