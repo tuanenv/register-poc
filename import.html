@@ -17,6 +17,7 @@
 </div></main></div>
 <script type="module">
 import {firebaseConfig,firebaseCollections,isFirebaseConfigReady} from './firebase-config.js';
+import {renderNavigation} from "./navigation.js";
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
 import {getAuth,onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
 import {getFirestore,doc,getDoc,setDoc,deleteDoc,writeBatch,serverTimestamp,Timestamp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
