@@ -1,42 +1,1141 @@
 <!doctype html>
 <html lang="th">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Dashboard | Register POC</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
-<style>
-:root{--primary:#2679bc;--dark:#103b61;--mid:#194f7d;--soft:#e7f4fd;--bg:#f5f7f9;--white:#fff;--text:#18212f;--muted:#667085;--border:#d9dee5;--green:#067647;--green-soft:#ecfdf3;--amber:#b54708;--amber-soft:#fffaeb;--red:#b42318;--red-soft:#fef3f2;--purple:#6941c6;--shadow:0 8px 26px rgba(16,24,40,.07)}*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",Tahoma,"Noto Sans Thai",sans-serif;background:var(--bg);color:var(--text)}button{font:inherit;cursor:pointer}.shell{min-height:100vh;display:grid;grid-template-columns:245px minmax(0,1fr)}.side{position:sticky;top:0;height:100vh;padding:22px 17px;color:#fff;background:linear-gradient(180deg,var(--mid),var(--dark))}.brand{position:relative;display:flex;gap:12px;align-items:center;margin-bottom:34px}.brand-logo{display:flex;width:78px;height:52px;padding:4px;border-radius:12px;background:#fff;box-shadow:0 6px 18px #001c351f}.brand-logo img{width:100%;height:100%;object-fit:contain}.brand strong,.brand small{display:block}.brand small{opacity:.72}.brand:after{content:"";position:absolute;left:17px;right:17px;bottom:-14px;height:3px;border-radius:999px;background:linear-gradient(90deg,#4b5df5,#f7a33d,#f05b78,#42a5dd,#69c20f)}.nav-label{font-size:11px;opacity:.55;letter-spacing:.08em;margin:20px 10px 8px}.nav{display:flex;gap:10px;align-items:center;padding:11px 12px;border-radius:10px;color:#fff;text-decoration:none;opacity:.78;margin:3px 0}.nav:hover,.nav.active{background:#ffffff1d;opacity:1}.nav.hidden{display:none}.nav.disabled{opacity:.35;pointer-events:none}.dot{width:8px;height:8px;border-radius:50%;background:#67d5e8}.userbox{position:absolute;left:17px;right:17px;bottom:20px;padding-top:14px;border-top:1px solid #ffffff22;font-size:12px}.userbox strong{display:block;margin-bottom:3px;word-break:break-word}.userbox span{opacity:.75}.signout{width:100%;margin-top:11px;padding:8px 10px;border:1px solid #ffffff45;border-radius:8px;background:#ffffff12;color:#fff;font-weight:750}.signout:hover{background:#ffffff22}.main{min-width:0}.top{position:sticky;top:0;z-index:20;padding:18px 26px;background:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}.top h1{margin:2px 0 0;font-size:23px}.eyebrow{font-size:12px;color:var(--muted)}.status{display:flex;align-items:center;gap:8px;color:var(--green);font-size:12px;font-weight:750}.status i{width:9px;height:9px;border-radius:50%;background:#12b76a;box-shadow:0 0 0 4px #d1fadf}.content{max-width:1750px;margin:auto;padding:24px 26px 50px}.hero{padding:22px 24px;border-radius:17px;color:#fff;background:linear-gradient(135deg,var(--primary),var(--mid));box-shadow:var(--shadow);display:flex;justify-content:space-between;gap:18px;align-items:center}.hero h2{margin:0 0 6px;font-size:24px}.hero p{margin:0;opacity:.82;font-size:13px}.pill{padding:8px 12px;border-radius:999px;background:#ffffff1e;font-size:12px}.kpis{display:grid;grid-template-columns:repeat(6,minmax(130px,1fr));gap:11px;margin-top:17px}.kpi{position:relative;padding:15px;border:1px solid var(--border);border-radius:13px;background:#fff;box-shadow:var(--shadow);cursor:pointer}.kpi:hover{transform:translateY(-2px);border-color:#9dc9e8}.kpi span{display:block;color:var(--muted);font-size:11px}.kpi strong{display:block;margin-top:7px;font-size:27px}.kpi small{display:block;margin-top:4px;color:var(--muted);font-size:10px}.kpi.green strong{color:var(--green)}.kpi.blue strong{color:var(--primary)}.kpi.amber strong{color:var(--amber)}.kpi.red strong{color:var(--red)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:17px}.card{background:#fff;border:1px solid var(--border);border-radius:15px;box-shadow:var(--shadow);overflow:hidden}.head{padding:17px 19px;border-bottom:1px solid var(--border)}.head h3{margin:0 0 4px;font-size:16px}.head p{margin:0;color:var(--muted);font-size:11px}.body{padding:18px}.chart-box{position:relative;height:290px}.summary-list{list-style:none;margin:0;padding:0}.summary-list li{display:grid;grid-template-columns:minmax(0,1fr) 60px 110px;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid #f0f2f4;font-size:12px}.bar-track{height:7px;border-radius:999px;background:#eef1f4;overflow:hidden}.bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--primary),#56b5df)}.empty{padding:40px;text-align:center;color:var(--muted)}.alert{display:none;margin-top:14px;padding:11px 13px;border-radius:9px;font-size:12px}.alert.show{display:block}.alert.bad{background:var(--red-soft);color:var(--red)}.footer{margin-top:18px;color:var(--muted);font-size:11px}.loading{opacity:.6;pointer-events:none}@media(max-width:1200px){.shell{grid-template-columns:1fr}.side{display:none}.kpis{grid-template-columns:repeat(3,1fr)}}@media(max-width:760px){.content,.top{padding-left:14px;padding-right:14px}.hero{align-items:flex-start;flex-direction:column}.kpis,.grid{grid-template-columns:1fr}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Dashboard | Register POC</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #2679bc;
+      --dark: #103b61;
+      --mid: #194f7d;
+      --soft: #e7f4fd;
+      --bg: #f5f7f9;
+      --white: #ffffff;
+      --text: #18212f;
+      --muted: #667085;
+      --border: #d9dee5;
+      --green: #067647;
+      --green-soft: #ecfdf3;
+      --amber: #b54708;
+      --amber-soft: #fffaeb;
+      --red: #b42318;
+      --red-soft: #fef3f2;
+      --purple: #6941c6;
+      --shadow: 0 8px 26px rgba(16, 24, 40, 0.07);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, "Noto Sans Thai", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 245px minmax(0, 1fr);
+    }
+
+    .side {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 22px 17px;
+      color: #ffffff;
+      background: linear-gradient(
+        180deg,
+        var(--mid),
+        var(--dark)
+      );
+    }
+
+    /*
+      Shared Navigation Styles
+      ใช้ร่วมกับ HTML ที่ navigation.js สร้างขึ้น
+    */
+
+    .brand {
+      position: relative;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 34px;
+    }
+
+    .brand strong,
+    .brand small {
+      display: block;
+    }
+
+    .brand small {
+      margin-top: 2px;
+      opacity: 0.72;
+    }
+
+    .brand-logo-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 78px;
+      height: 52px;
+      padding: 4px;
+      border-radius: 12px;
+      background: #ffffff;
+      text-decoration: none;
+      box-shadow: 0 6px 18px #001c351f;
+    }
+
+    .spark-logo {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .brand::after {
+      content: "";
+      position: absolute;
+      left: 17px;
+      right: 17px;
+      bottom: -14px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(
+        90deg,
+        #4b5df5,
+        #f7a33d,
+        #f05b78,
+        #42a5dd,
+        #69c20f
+      );
+    }
+
+    .nav-label {
+      margin: 20px 10px 8px;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      opacity: 0.55;
+    }
+
+    .nav {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin: 3px 0;
+      padding: 11px 12px;
+      border-radius: 10px;
+      color: #ffffff;
+      text-decoration: none;
+      opacity: 0.78;
+    }
+
+    .nav:hover,
+    .nav.active {
+      background: #ffffff1d;
+      opacity: 1;
+    }
+
+    .nav.disabled {
+      pointer-events: none;
+      opacity: 0.35;
+    }
+
+    .nav small {
+      margin-left: auto;
+      font-size: 9px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #67d5e8;
+    }
+
+    .userbox {
+      position: absolute;
+      right: 17px;
+      bottom: 20px;
+      left: 17px;
+      padding-top: 14px;
+      border-top: 1px solid #ffffff22;
+      font-size: 12px;
+    }
+
+    .userbox strong {
+      display: block;
+      margin-bottom: 3px;
+      word-break: break-word;
+    }
+
+    .userbox span {
+      display: block;
+      opacity: 0.75;
+    }
+
+    .side-signout {
+      width: 100%;
+      margin-top: 11px;
+      padding: 8px 10px;
+      border: 1px solid #ffffff45;
+      border-radius: 8px;
+      background: #ffffff12;
+      color: #ffffff;
+      font-weight: 750;
+    }
+
+    .side-signout:hover {
+      background: #ffffff22;
+    }
+
+    /*
+      Main Layout
+    */
+
+    .main {
+      min-width: 0;
+    }
+
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 26px;
+      border-bottom: 1px solid var(--border);
+      background: #ffffff;
+    }
+
+    .top h1 {
+      margin: 2px 0 0;
+      font-size: 23px;
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .status {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .status i {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #12b76a;
+      box-shadow: 0 0 0 4px #d1fadf;
+    }
+
+    .content {
+      max-width: 1750px;
+      margin: auto;
+      padding: 24px 26px 50px;
+    }
+
+    .hero {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 24px;
+      border-radius: 17px;
+      background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--mid)
+      );
+      color: #ffffff;
+      box-shadow: var(--shadow);
+    }
+
+    .hero h2 {
+      margin: 0 0 6px;
+      font-size: 24px;
+    }
+
+    .hero p {
+      margin: 0;
+      font-size: 13px;
+      opacity: 0.82;
+    }
+
+    .pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #ffffff1e;
+      font-size: 12px;
+    }
+
+    /*
+      KPI Cards
+    */
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(130px, 1fr));
+      gap: 11px;
+      margin-top: 17px;
+    }
+
+    .kpi {
+      position: relative;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: #ffffff;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+
+    .kpi:hover {
+      transform: translateY(-2px);
+      border-color: #9dc9e8;
+    }
+
+    .kpi span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .kpi strong {
+      display: block;
+      margin-top: 7px;
+      font-size: 27px;
+    }
+
+    .kpi small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .kpi.green strong {
+      color: var(--green);
+    }
+
+    .kpi.blue strong {
+      color: var(--primary);
+    }
+
+    .kpi.amber strong {
+      color: var(--amber);
+    }
+
+    .kpi.red strong {
+      color: var(--red);
+    }
+
+    /*
+      Dashboard Cards
+    */
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+      margin-top: 17px;
+    }
+
+    .card {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: #ffffff;
+      box-shadow: var(--shadow);
+    }
+
+    .head {
+      padding: 17px 19px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .head h3 {
+      margin: 0 0 4px;
+      font-size: 16px;
+    }
+
+    .head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .body {
+      padding: 18px;
+    }
+
+    .chart-box {
+      position: relative;
+      height: 290px;
+    }
+
+    .summary-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .summary-list li {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 60px 110px;
+      gap: 10px;
+      align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid #f0f2f4;
+      font-size: 12px;
+    }
+
+    .bar-track {
+      overflow: hidden;
+      height: 7px;
+      border-radius: 999px;
+      background: #eef1f4;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(
+        90deg,
+        var(--primary),
+        #56b5df
+      );
+    }
+
+    .empty {
+      padding: 40px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .alert {
+      display: none;
+      margin-top: 14px;
+      padding: 11px 13px;
+      border-radius: 9px;
+      font-size: 12px;
+    }
+
+    .alert.show {
+      display: block;
+    }
+
+    .alert.bad {
+      background: var(--red-soft);
+      color: var(--red);
+    }
+
+    .footer {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .loading {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    @media (max-width: 1200px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .side {
+        display: none;
+      }
+
+      .kpis {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .content,
+      .top {
+        padding-right: 14px;
+        padding-left: 14px;
+      }
+
+      .hero {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .kpis,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
-<body><div class="shell">
-<aside id="appSidebar" class="side"></aside>
-<main class="main"><header class="top"><div><div class="eyebrow">ระบบจัดการลงทะเบียน</div><h1>Dashboard</h1></div><div class="status"><i></i><span id="statusText">กำลังเชื่อมต่อ...</span></div></header><div class="content" id="content">
-<section class="hero"><div><h2>Registration Overview</h2><p>ภาพรวมรายชื่อ การตอบรับ Mapping และ Check-in จาก Cloud Firestore</p></div><div class="pill" id="lastLoaded">กำลังโหลดข้อมูล...</div></section>
-<div id="alert" class="alert"></div>
-<section class="kpis">
-<div class="kpi blue" data-filter="all"><span>แขกทั้งหมด</span><strong id="kTotal">0</strong><small>รายการในระบบ</small></div>
-<div class="kpi green" data-filter="registered"><span>ลงทะเบียนแล้ว</span><strong id="kRegistered">0</strong><small id="pRegistered">0%</small></div>
-<div class="kpi amber" data-filter="unregistered"><span>ยังไม่ลงทะเบียน</span><strong id="kUnregistered">0</strong><small id="pUnregistered">0%</small></div>
-<div class="kpi green" data-filter="attend"><span>ยืนยันเข้าร่วม</span><strong id="kAttend">0</strong><small id="pAttend">0%</small></div>
-<div class="kpi blue" data-filter="mapped"><span>Mapping</span><strong id="kMapped">0</strong><small id="pMapped">0%</small></div>
-<div class="kpi green" data-filter="checked"><span>Checked-in</span><strong id="kChecked">0</strong><small id="pChecked">0%</small></div>
-</section>
-<section class="grid"><article class="card"><div class="head"><h3>สถานะการลงทะเบียน</h3><p>Registered เทียบกับ Not Registered</p></div><div class="body"><div class="chart-box"><canvas id="registrationChart"></canvas></div></div></article><article class="card"><div class="head"><h3>การตอบกลับและ Check-in</h3><p>Attendance response และสถานะหน้างาน</p></div><div class="body"><div class="chart-box"><canvas id="attendanceChart"></canvas></div></div></article><article class="card"><div class="head"><h3>สรุปตาม Stakeholder</h3><p>จำนวนรายชื่อในแต่ละกลุ่ม</p></div><div class="body"><ul class="summary-list" id="stakeholderList"></ul></div></article><article class="card"><div class="head"><h3>สรุปตามกลุ่มสายงาน</h3><p>จำนวนรายชื่อในแต่ละกลุ่ม</p></div><div class="body"><ul class="summary-list" id="groupList"></ul></div></article></section>
-<div class="footer">ข้อมูล Dashboard โหลดจาก Collection <strong>guests</strong> และคำนวณใน Browser สำหรับ POC</div>
-</div></main></div>
-<script type="module">
-import {firebaseConfig,firebaseCollections,isFirebaseConfigReady} from './firebase-config.js';
-import {renderNavigation} from "./navigation.js";
-import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
-import {getAuth,onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
-import {getFirestore,collection,getDocs,query,orderBy} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
-const $=id=>document.getElementById(id);let auth,db,user,role,rows=[],charts=[];const valid=['admin','editor','viewer'];
-$('signOutBtn').onclick=async()=>{try{await signOut(auth)}finally{location.replace('index.html')}};document.querySelectorAll('.kpi').forEach(x=>x.onclick=()=>openFilteredGuests(x.dataset.filter));
-if(!isFirebaseConfigReady(firebaseConfig)){fail('Firebase Configuration ยังไม่พร้อม')}else{const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);onAuthStateChanged(auth,async u=>{if(!u){location.replace('index.html');return}user=u;try{const token=await u.getIdTokenResult(true);role=String(token.claims.role||'').toLowerCase();if(!valid.includes(role)){await signOut(auth);location.replace('index.html?error=unauthorized');return}$('sideUser').textContent=u.email||u.uid;$('sideRole').textContent='Role: '+role;if(role==='admin')$('importNav').classList.remove('hidden');await load()}catch(e){fail((e.code||'error')+': '+e.message)}})}
-async function load(){try{$('content').classList.add('loading');let snap;try{snap=await getDocs(query(collection(db,firebaseCollections.guests),orderBy('sequence','asc')))}catch{snap=await getDocs(collection(db,firebaseCollections.guests))}rows=snap.docs.map(d=>({id:d.id,...d.data()}));render();$('statusText').textContent='Firestore พร้อมใช้งาน';$('lastLoaded').textContent='โหลดล่าสุด '+new Date().toLocaleString('th-TH')}catch(e){fail((e.code||'error')+': '+e.message)}finally{$('content').classList.remove('loading')}}
-function render(){const n=rows.length,registered=count('registrationStatus','ลงทะเบียนแล้ว'),attend=count('attendanceStatus','เข้าร่วม'),decline=count('attendanceStatus','ไม่เข้าร่วม'),mapped=count('mappingStatus','Mapping'),checked=rows.filter(x=>x.checkedInAt).length;set('kTotal',n);set('kRegistered',registered);set('kUnregistered',n-registered);set('kAttend',attend);set('kMapped',mapped);set('kChecked',checked);pct('pRegistered',registered,n);pct('pUnregistered',n-registered,n);pct('pAttend',attend,n);pct('pMapped',mapped,n);pct('pChecked',checked,n);charts.forEach(c=>c.destroy());charts=[new Chart($('registrationChart'),{type:'doughnut',data:{labels:['ลงทะเบียนแล้ว','ยังไม่ลงทะเบียน'],datasets:[{data:[registered,n-registered],backgroundColor:['#12b76a','#f79009'],borderWidth:0}]},options:options()}),new Chart($('attendanceChart'),{type:'bar',data:{labels:['เข้าร่วม','ไม่เข้าร่วม','ยังไม่ตอบ','Checked-in'],datasets:[{data:[attend,decline,n-attend-decline,checked],backgroundColor:['#2679bc','#f04438','#98a2b3','#12b76a'],borderRadius:7}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{precision:0}},x:{grid:{display:false}}}}})];renderList('stakeholderList','stakeholderGroup');renderList('groupList','groupName')}
-function renderList(id,key){const m=new Map();rows.forEach(r=>{const value=r[key]||'ไม่ระบุ';m.set(value,(m.get(value)||0)+1)});const sorted=[...m].sort((a,b)=>b[1]-a[1]),max=Math.max(1,...sorted.map(x=>x[1]));$(id).innerHTML=sorted.length?sorted.map(([name,value])=>`<li><span>${esc(name)}</span><strong>${value}</strong><div class="bar-track"><div class="bar-fill" style="width:${value/max*100}%"></div></div></li>`).join(''):'<li class="empty">ไม่มีข้อมูล</li>'}
-function openFilteredGuests(type){const q={registered:'registration='+encodeURIComponent('ลงทะเบียนแล้ว'),unregistered:'registration='+encodeURIComponent('ยังไม่ลงทะเบียน'),attend:'attendance='+encodeURIComponent('เข้าร่วม'),mapped:'mapping='+encodeURIComponent('Mapping'),checked:'checked=1'}[type]||'';location.href='guests.html'+(q?'?'+q:'')}
-function options(){return{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},cutout:'62%'}}function count(k,v){return rows.filter(x=>x[k]===v).length}function set(id,v){$(id).textContent=v}function pct(id,v,n){$(id).textContent=(n?Math.round(v/n*100):0)+'%'}function fail(t){$('alert').textContent=t;$('alert').className='alert show bad';$('statusText').textContent='เกิดข้อผิดพลาด'}function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-</script>
-</body></html>
+
+<body>
+  <div class="shell">
+
+    <aside id="appSidebar" class="side"></aside>
+
+    <main class="main">
+      <header class="top">
+        <div>
+          <div class="eyebrow">
+            ระบบจัดการลงทะเบียน
+          </div>
+
+          <h1>Dashboard</h1>
+        </div>
+
+        <div class="status">
+          <i></i>
+          <span id="statusText">
+            กำลังเชื่อมต่อ...
+          </span>
+        </div>
+      </header>
+
+      <div class="content" id="content">
+
+        <section class="hero">
+          <div>
+            <h2>Registration Overview</h2>
+
+            <p>
+              ภาพรวมรายชื่อ การตอบรับ Mapping
+              และ Check-in จาก Cloud Firestore
+            </p>
+          </div>
+
+          <div class="pill" id="lastLoaded">
+            กำลังโหลดข้อมูล...
+          </div>
+        </section>
+
+        <div id="alert" class="alert"></div>
+
+        <section class="kpis">
+
+          <div class="kpi blue" data-filter="all">
+            <span>แขกทั้งหมด</span>
+            <strong id="kTotal">0</strong>
+            <small>รายการในระบบ</small>
+          </div>
+
+          <div class="kpi green" data-filter="registered">
+            <span>ลงทะเบียนแล้ว</span>
+            <strong id="kRegistered">0</strong>
+            <small id="pRegistered">0%</small>
+          </div>
+
+          <div class="kpi amber" data-filter="unregistered">
+            <span>ยังไม่ลงทะเบียน</span>
+            <strong id="kUnregistered">0</strong>
+            <small id="pUnregistered">0%</small>
+          </div>
+
+          <div class="kpi green" data-filter="attend">
+            <span>ยืนยันเข้าร่วม</span>
+            <strong id="kAttend">0</strong>
+            <small id="pAttend">0%</small>
+          </div>
+
+          <div class="kpi blue" data-filter="mapped">
+            <span>Mapping</span>
+            <strong id="kMapped">0</strong>
+            <small id="pMapped">0%</small>
+          </div>
+
+          <div class="kpi green" data-filter="checked">
+            <span>Checked-in</span>
+            <strong id="kChecked">0</strong>
+            <small id="pChecked">0%</small>
+          </div>
+
+        </section>
+
+        <section class="grid">
+
+          <article class="card">
+            <div class="head">
+              <h3>สถานะการลงทะเบียน</h3>
+              <p>Registered เทียบกับ Not Registered</p>
+            </div>
+
+            <div class="body">
+              <div class="chart-box">
+                <canvas id="registrationChart"></canvas>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="head">
+              <h3>การตอบกลับและ Check-in</h3>
+              <p>Attendance response และสถานะหน้างาน</p>
+            </div>
+
+            <div class="body">
+              <div class="chart-box">
+                <canvas id="attendanceChart"></canvas>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="head">
+              <h3>สรุปตาม Stakeholder</h3>
+              <p>จำนวนรายชื่อในแต่ละกลุ่ม</p>
+            </div>
+
+            <div class="body">
+              <ul
+                class="summary-list"
+                id="stakeholderList">
+              </ul>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="head">
+              <h3>สรุปตามกลุ่มสายงาน</h3>
+              <p>จำนวนรายชื่อในแต่ละกลุ่ม</p>
+            </div>
+
+            <div class="body">
+              <ul
+                class="summary-list"
+                id="groupList">
+              </ul>
+            </div>
+          </article>
+
+        </section>
+
+        <div class="footer">
+          ข้อมูล Dashboard โหลดจาก Collection
+          <strong>guests</strong>
+          และคำนวณใน Browser สำหรับ POC
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import {
+      firebaseConfig,
+      firebaseCollections,
+      isFirebaseConfigReady
+    } from "./firebase-config.js";
+
+    import {
+      renderNavigation
+    } from "./navigation.js";
+
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      query,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+    const $ = id => document.getElementById(id);
+
+    let auth;
+    let db;
+    let user;
+    let role;
+    let rows = [];
+    let charts = [];
+
+    const validRoles = [
+      "admin",
+      "editor",
+      "viewer"
+    ];
+
+    document
+      .querySelectorAll(".kpi")
+      .forEach(card => {
+        card.addEventListener("click", () => {
+          openFilteredGuests(
+            card.dataset.filter
+          );
+        });
+      });
+
+    if (!isFirebaseConfigReady(firebaseConfig)) {
+      fail("Firebase Configuration ยังไม่พร้อม");
+    } else {
+      const app = initializeApp(firebaseConfig);
+
+      auth = getAuth(app);
+      db = getFirestore(app);
+
+      onAuthStateChanged(
+        auth,
+        async currentUser => {
+          if (!currentUser) {
+            location.replace("index.html");
+            return;
+          }
+
+          user = currentUser;
+
+          try {
+            const token =
+              await currentUser.getIdTokenResult(true);
+
+            role = String(
+              token.claims.role || ""
+            ).toLowerCase();
+
+            if (!validRoles.includes(role)) {
+              await signOut(auth);
+
+              location.replace(
+                "index.html?error=unauthorized"
+              );
+
+              return;
+            }
+
+            renderNavigation({
+              activePage: "dashboard",
+              user: currentUser,
+              role
+            });
+
+            await loadDashboard();
+          } catch (error) {
+            fail(
+              `${error.code || "error"}: ${error.message}`
+            );
+          }
+        }
+      );
+    }
+
+    async function loadDashboard() {
+      try {
+        $("content").classList.add("loading");
+
+        let snapshot;
+
+        try {
+          snapshot = await getDocs(
+            query(
+              collection(
+                db,
+                firebaseCollections.guests
+              ),
+              orderBy("sequence", "asc")
+            )
+          );
+        } catch {
+          snapshot = await getDocs(
+            collection(
+              db,
+              firebaseCollections.guests
+            )
+          );
+        }
+
+        rows = snapshot.docs.map(document => ({
+          id: document.id,
+          ...document.data()
+        }));
+
+        renderDashboard();
+
+        $("statusText").textContent =
+          "Firestore พร้อมใช้งาน";
+
+        $("lastLoaded").textContent =
+          "โหลดล่าสุด " +
+          new Date().toLocaleString("th-TH");
+
+      } catch (error) {
+        fail(
+          `${error.code || "error"}: ${error.message}`
+        );
+      } finally {
+        $("content").classList.remove("loading");
+      }
+    }
+
+    function renderDashboard() {
+      const total = rows.length;
+
+      const registered =
+        countByValue(
+          "registrationStatus",
+          "ลงทะเบียนแล้ว"
+        );
+
+      const attending =
+        countByValue(
+          "attendanceStatus",
+          "เข้าร่วม"
+        );
+
+      const declined =
+        countByValue(
+          "attendanceStatus",
+          "ไม่เข้าร่วม"
+        );
+
+      const mapped =
+        countByValue(
+          "mappingStatus",
+          "Mapping"
+        );
+
+      const checkedIn =
+        rows.filter(row => row.checkedInAt).length;
+
+      const unregistered =
+        total - registered;
+
+      setText("kTotal", total);
+      setText("kRegistered", registered);
+      setText("kUnregistered", unregistered);
+      setText("kAttend", attending);
+      setText("kMapped", mapped);
+      setText("kChecked", checkedIn);
+
+      setPercent(
+        "pRegistered",
+        registered,
+        total
+      );
+
+      setPercent(
+        "pUnregistered",
+        unregistered,
+        total
+      );
+
+      setPercent(
+        "pAttend",
+        attending,
+        total
+      );
+
+      setPercent(
+        "pMapped",
+        mapped,
+        total
+      );
+
+      setPercent(
+        "pChecked",
+        checkedIn,
+        total
+      );
+
+      charts.forEach(chart => chart.destroy());
+
+      charts = [
+        createRegistrationChart(
+          registered,
+          unregistered
+        ),
+
+        createAttendanceChart(
+          attending,
+          declined,
+          total - attending - declined,
+          checkedIn
+        )
+      ];
+
+      renderSummaryList(
+        "stakeholderList",
+        "stakeholderGroup"
+      );
+
+      renderSummaryList(
+        "groupList",
+        "groupName"
+      );
+    }
+
+    function createRegistrationChart(
+      registered,
+      unregistered
+    ) {
+      return new Chart(
+        $("registrationChart"),
+        {
+          type: "doughnut",
+
+          data: {
+            labels: [
+              "ลงทะเบียนแล้ว",
+              "ยังไม่ลงทะเบียน"
+            ],
+
+            datasets: [{
+              data: [
+                registered,
+                unregistered
+              ],
+
+              backgroundColor: [
+                "#12b76a",
+                "#f79009"
+              ],
+
+              borderWidth: 0
+            }]
+          },
+
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: "62%",
+
+            plugins: {
+              legend: {
+                position: "bottom"
+              }
+            }
+          }
+        }
+      );
+    }
+
+    function createAttendanceChart(
+      attending,
+      declined,
+      unanswered,
+      checkedIn
+    ) {
+      return new Chart(
+        $("attendanceChart"),
+        {
+          type: "bar",
+
+          data: {
+            labels: [
+              "เข้าร่วม",
+              "ไม่เข้าร่วม",
+              "ยังไม่ตอบ",
+              "Checked-in"
+            ],
+
+            datasets: [{
+              data: [
+                attending,
+                declined,
+                unanswered,
+                checkedIn
+              ],
+
+              backgroundColor: [
+                "#2679bc",
+                "#f04438",
+                "#98a2b3",
+                "#12b76a"
+              ],
+
+              borderRadius: 7
+            }]
+          },
+
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+              legend: {
+                display: false
+              }
+            },
+
+            scales: {
+              y: {
+                beginAtZero: true,
+
+                ticks: {
+                  precision: 0
+                }
+              },
+
+              x: {
+                grid: {
+                  display: false
+                }
+              }
+            }
+          }
+        }
+      );
+    }
+
+    function renderSummaryList(
+      elementId,
+      fieldName
+    ) {
+      const summary = new Map();
+
+      rows.forEach(row => {
+        const value =
+          row[fieldName] || "ไม่ระบุ";
+
+        summary.set(
+          value,
+          (summary.get(value) || 0) + 1
+        );
+      });
+
+      const sorted = [
+        ...summary.entries()
+      ].sort((a, b) => b[1] - a[1]);
+
+      const maximum = Math.max(
+        1,
+        ...sorted.map(item => item[1])
+      );
+
+      if (!sorted.length) {
+        $(elementId).innerHTML =
+          '<li class="empty">ไม่มีข้อมูล</li>';
+
+        return;
+      }
+
+      $(elementId).innerHTML =
+        sorted.map(([name, value]) => `
+          <li>
+            <span>${escapeHtml(name)}</span>
+
+            <strong>${value}</strong>
+
+            <div class="bar-track">
+              <div
+                class="bar-fill"
+                style="width:${value / maximum * 100}%">
+              </div>
+            </div>
+          </li>
+        `).join("");
+    }
+
+    function openFilteredGuests(filterType) {
+      const queryParameters = {
+        registered:
+          "registration=" +
+          encodeURIComponent("ลงทะเบียนแล้ว"),
+
+        unregistered:
+          "registration=" +
+          encodeURIComponent("ยังไม่ลงทะเบียน"),
+
+        attend:
+          "attendance=" +
+          encodeURIComponent("เข้าร่วม"),
+
+        mapped:
+          "mapping=" +
+          encodeURIComponent("Mapping"),
+
+        checked:
+          "checked=1"
+      };
+
+      const queryString =
+        queryParameters[filterType] || "";
+
+      location.href =
+        "guests.html" +
+        (queryString ? `?${queryString}` : "");
+    }
+
+    function countByValue(
+      fieldName,
+      expectedValue
+    ) {
+      return rows.filter(
+        row => row[fieldName] === expectedValue
+      ).length;
+    }
+
+    function setText(elementId, value) {
+      $(elementId).textContent = value;
+    }
+
+    function setPercent(
+      elementId,
+      value,
+      total
+    ) {
+      const percentage = total
+        ? Math.round(value / total * 100)
+        : 0;
+
+      $(elementId).textContent =
+        `${percentage}%`;
+    }
+
+    function fail(message) {
+      $("alert").textContent = message;
+      $("alert").className = "alert show bad";
+      $("statusText").textContent =
+        "เกิดข้อผิดพลาด";
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(
+          /[&<>'"]/g,
+          character => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            "'": "&#39;",
+            '"': "&quot;"
+          })[character]
+        );
+    }
+  </script>
+</body>
+</html>
