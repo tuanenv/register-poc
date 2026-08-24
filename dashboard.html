@@ -9,7 +9,7 @@
 </style>
 </head>
 <body><div class="shell">
-<aside class="side"><div class="brand"><a class="brand-logo" href="dashboard.html"><img src="spark-logo.png" alt="Sustainability Spark"></a><div><strong>Register POC</strong><small>Administration</small></div></div><div class="nav-label">เมนูหลัก</div><a class="nav active" href="dashboard.html"><span class="dot"></span>Dashboard</a><a class="nav" href="guests.html"><span class="dot"></span>รายชื่อแขก</a><a class="nav disabled"><span class="dot"></span>จัดการโต๊ะที่นั่ง</a><a class="nav hidden" id="importNav" href="import.html"><span class="dot"></span>Import Excel</a><div class="userbox"><strong id="sideUser">กำลังตรวจสอบ Session...</strong><span id="sideRole">Firebase Authentication</span><button class="signout" id="signOutBtn">ออกจากระบบ</button></div></aside>
+<aside id="appSidebar" class="side"></aside>
 <main class="main"><header class="top"><div><div class="eyebrow">ระบบจัดการลงทะเบียน</div><h1>Dashboard</h1></div><div class="status"><i></i><span id="statusText">กำลังเชื่อมต่อ...</span></div></header><div class="content" id="content">
 <section class="hero"><div><h2>Registration Overview</h2><p>ภาพรวมรายชื่อ การตอบรับ Mapping และ Check-in จาก Cloud Firestore</p></div><div class="pill" id="lastLoaded">กำลังโหลดข้อมูล...</div></section>
 <div id="alert" class="alert"></div>
