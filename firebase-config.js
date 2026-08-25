@@ -14,9 +14,9 @@ export const firebaseCollections = Object.freeze({
   imports: "imports",
   connectionTests: "connection_tests",
   // Collection เดิม เก็บไว้สำรอง
-  seats: "seats"
+  seats: "seats",
   // Collection ใหม่ที่ระบบจะใช้งาน
-  seats: "seats_v2"
+  seats: "seats_v2",
   // เก็บ Configuration ของผังที่นั่ง
   seatingConfigs: "seatingConfigs"
 });
