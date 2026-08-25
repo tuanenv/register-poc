@@ -1,5 +1,491 @@
-<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>จัดการที่นั่ง | Register POC</title><style>
-:root{--p:#2679bc;--d:#103b61;--m:#194f7d;--bg:#f5f7f9;--tx:#18212f;--mu:#667085;--bd:#d9dee5;--ok:#067647;--bad:#b42318;--shadow:0 8px 26px #10182812}*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Tahoma,sans-serif;background:var(--bg);color:var(--tx)}button,input,select{font:inherit}.shell{min-height:100vh;display:grid;grid-template-columns:245px 1fr}.side{position:sticky;top:0;height:100vh;padding:22px 17px;color:#fff;background:linear-gradient(180deg,var(--m),var(--d))}.main{min-width:0}.top{padding:18px 26px;background:#fff;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between}.top h1{margin:0}.content{padding:24px 26px;max-width:1800px;margin:auto}.hero{padding:22px 24px;border-radius:17px;color:#fff;background:linear-gradient(135deg,var(--p),var(--m));display:flex;justify-content:space-between}.hero h2{margin:0 0 6px}.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:11px;margin:17px 0}.kpi{padding:14px;background:#fff;border:1px solid var(--bd);border-radius:13px;box-shadow:var(--shadow)}.kpi span{display:block;color:var(--mu);font-size:11px}.kpi strong{display:block;font-size:25px;margin-top:5px}.controls{display:flex;gap:10px;align-items:end;flex-wrap:wrap;padding:14px;background:#fff;border:1px solid var(--bd);border-radius:12px}.field label{display:block;font-size:10px;color:var(--mu);margin-bottom:5px}.field select,.search{padding:9px;border:1px solid var(--bd);border-radius:8px;background:#fff}.workspace{display:grid;grid-template-columns:300px 1fr;gap:15px;margin-top:15px}.card{background:#fff;border:1px solid var(--bd);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}.head{padding:15px 17px;border-bottom:1px solid var(--bd)}.head h3{margin:0 0 4px}.head p{margin:0;color:var(--mu);font-size:11px}.body{padding:16px;overflow:auto}.selected{padding:10px;border-radius:8px;background:#eff8ff;color:#175cd3;font-size:11px}.selected.empty{background:#f5f6f7;color:var(--mu)}.search{width:100%;margin-top:10px}.guest-list{max-height:600px;overflow:auto;margin-top:9px}.guest{width:100%;display:block;text-align:left;padding:9px;margin-bottom:6px;border:1px solid var(--bd);border-radius:8px;background:#fff;cursor:pointer}.guest:hover,.guest.active{border-color:var(--p);background:#eff8ff}.guest strong,.guest span{display:block}.guest span{font-size:10px;color:var(--mu);margin-top:3px}.stage{min-width:950px;padding:12px;background:#dceefa;color:var(--d);border-radius:10px;text-align:center;font-weight:850;letter-spacing:.18em}.zone{min-width:950px;margin-top:16px}.zone-title{padding:7px 10px;border-radius:7px;background:#f4f3ff;color:#6941c6;font-weight:850;font-size:11px}.row{display:flex;align-items:center;gap:8px;margin:7px 0;min-width:950px}.row-label{width:70px;text-align:right;color:var(--mu);font-size:10px}.groups{display:flex;gap:8px;align-items:center}.group{display:flex;gap:4px;padding:5px;border-radius:8px;background:#fafbfc}.aisle{min-width:36px;color:#98a2b3;text-align:center;font-size:8px}.seat{width:36px;height:32px;border:1px solid #cfd6df;border-radius:7px;background:#fff;font-size:8px;font-weight:800;cursor:pointer}.seat.assigned{background:var(--p);color:#fff}.seat.inactive{background:#ddd;color:#888}.msg{display:none;margin-top:12px;padding:11px;border-radius:8px;font-size:12px}.msg.show{display:block}.msg.good{background:#ecfdf3;color:var(--ok)}.msg.bad{background:#fef3f2;color:var(--bad)}.modal{position:fixed;inset:0;background:#10182899;display:none;align-items:center;justify-content:center}.modal.show{display:flex}.dialog{width:min(550px,94%);background:#fff;border-radius:14px;padding:18px}.dialog h3{margin-top:0}.detail{display:grid;grid-template-columns:1fr 1fr;gap:8px}.detail div{padding:9px;background:#f7f8fa;border-radius:8px;font-size:11px}@media(max-width:1200px){.shell{grid-template-columns:1fr}.side{display:none}.workspace{grid-template-columns:1fr}.guest-list{max-height:260px}}@media(max-width:700px){.kpis{grid-template-columns:1fr}.content{padding:14px}}
-</style></head><body><div class="shell"><aside id="appSidebar" class="side"></aside><main class="main"><header class="top"><h1>จัดการที่นั่ง</h1><span id="status">กำลังเชื่อมต่อ...</span></header><div class="content"><section class="hero"><div><h2>Dynamic Seating Plan</h2><span>เลือกแขก แล้วคลิกที่นั่งว่างเพื่อจัดที่นั่ง</span></div><span id="loaded">กำลังโหลด...</span></section><section class="kpis"><div class="kpi"><span>ตาม Configuration</span><strong id="expected">0</strong></div><div class="kpi"><span>Seat Documents</span><strong id="total">0</strong></div><div class="kpi"><span>ว่าง</span><strong id="available">0</strong></div><div class="kpi"><span>จัดแล้ว</span><strong id="assigned">0</strong></div><div class="kpi"><span>ใช้งาน</span><strong id="rate">0%</strong></div></section><section class="controls"><div class="field"><label>Zone</label><select id="zone"><option value="">ทั้งหมด</option></select></div><div class="field"><label>สถานะ</label><select id="state"><option value="">ทั้งหมด</option><option value="available">ว่าง</option><option value="assigned">มีผู้ใช้งาน</option></select></div></section><div id="message" class="msg"></div><section class="workspace"><aside class="card" id="guestPanel"><div class="head"><h3>แขกที่ยังไม่มีที่นั่ง</h3><p>Admin และ Editor เท่านั้น</p></div><div class="body"><div id="selected" class="selected empty">ยังไม่ได้เลือกแขก</div><input id="search" class="search" placeholder="ค้นหาชื่อ หน่วยงาน Unique Key"><div id="guestList" class="guest-list"></div></div></aside><section class="card"><div class="head"><h3>ผังตาม Configuration</h3><p id="instruction">เลือกแขก แล้วคลิกที่นั่งว่าง</p></div><div class="body"><div id="map"><div style="padding:40px;text-align:center">กำลังโหลด...</div></div></div></section></section></div></main></div><div class="modal" id="modal"><div class="dialog"><h3 id="modalTitle">รายละเอียด</h3><div id="detail" class="detail"></div><p><button id="close">ปิด</button></p></div></div><script type="module">
-import{firebaseConfig,firebaseCollections,isFirebaseConfigReady}from'./firebase-config.js';import{renderNavigation}from'./navigation.js';import{initializeApp}from'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';import{getAuth,onAuthStateChanged,signOut}from'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';import{getFirestore,collection,getDocs,doc,getDoc,runTransaction,serverTimestamp}from'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';const $=x=>document.getElementById(x);let auth,db,user,role,config,seats=[],guests=[],blueprint=[],selectedId=null;const roles=['admin','editor','viewer'];$('zone').onchange=renderMap;$('state').onchange=renderMap;$('search').oninput=renderGuests;$('close').onclick=()=>$('modal').classList.remove('show');if(!isFirebaseConfigReady())show('Firebase config ไม่พร้อม','bad');else{const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);onAuthStateChanged(auth,async u=>{if(!u)return location.replace('index.html');user=u;const t=await u.getIdTokenResult(true);role=String(t.claims.role||'').toLowerCase();if(!roles.includes(role)){await signOut(auth);return location.replace('index.html?error=unauthorized')}renderNavigation({activePage:'seating',user:u,role});load()})}async function load(){try{const[c,s,g]=await Promise.all([getDoc(doc(db,firebaseCollections.seatingConfigs,'current')),getDocs(collection(db,firebaseCollections.seats)),getDocs(collection(db,firebaseCollections.guests))]);if(!c.exists())throw Error('ไม่พบ seatingConfigs/current');config=c.data();blueprint=build(config.zones||[]);const ids=new Set(blueprint.map(x=>x.seatId));seats=s.docs.map(d=>({id:d.id,...d.data()})).filter(x=>ids.has(x.id));guests=g.docs.map(d=>({id:d.id,...d.data()}));$('zone').innerHTML='<option value="">ทั้งหมด</option>'+config.zones.map(z=>`<option value="${z.zoneCode}">${z.zoneName}</option>`).join('');$('guestPanel').hidden=!canEdit();$('instruction').textContent=canEdit()?'เลือกแขก แล้วคลิกที่นั่งว่าง':'โหมดดูอย่างเดียว';renderGuests();renderAll();$('status').textContent=`พร้อมใช้งาน · Config v${config.version}`;$('loaded').textContent=new Date().toLocaleString('th-TH')}catch(e){show(e.message,'bad')}}function canEdit(){return role==='admin'||role==='editor'}function build(zones){const a=[];for(const z of zones)for(let r=z.startRow;r<z.startRow+z.rowCount;r++)if(z.layoutType==='blocks')for(const b of z.blocks)for(let n=1;n<=z.seatsPerBlock;n++)a.push({seatId:`${z.zoneCode}-R${pad(r)}-${b}${pad(n)}`,zoneCode:z.zoneCode,zoneName:z.zoneName,rowNumber:r,seatLabel:`${b}${pad(n)}`,blockCode:b});else for(const side of['left','right'])for(let n=1;n<=(side==='left'?z.leftSeats:z.rightSeats);n++){const c=side==='left'?'L':'R';a.push({seatId:`${z.zoneCode}-R${pad(r)}-${c}${pad(n)}`,zoneCode:z.zoneCode,zoneName:z.zoneName,rowNumber:r,seatLabel:`${c}${pad(n)}`,side})}return a}function renderAll(){const a=seats.filter(x=>state(x)==='available').length,d=seats.filter(x=>state(x)==='assigned').length;$('expected').textContent=blueprint.length;$('total').textContent=seats.length;$('available').textContent=a;$('assigned').textContent=d;$('rate').textContent=(seats.length?Math.round(d/seats.length*100):0)+'%';renderMap()}function renderGuests(){if(!canEdit())return;const q=$('search').value.toLowerCase(),a=guests.filter(g=>!g.seatId&&g.seatingStatus!=='assigned').filter(g=>!q||[g.fullName,g.organizationName,g.uniqueKey].join(' ').toLowerCase().includes(q));$('guestList').innerHTML=a.length?a.map(g=>`<button class="guest ${g.id===selectedId?'active':''}" data-g="${g.id}"><strong>${text(g.fullName||g.id)}</strong><span>${text(g.organizationName||'-')} · ${text(g.uniqueKey||'-')}</span></button>`).join(''):'<p>ไม่พบรายชื่อ</p>';$('guestList').querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>selectGuest(b.dataset.g))}function selectGuest(id){selectedId=id;const g=guests.find(x=>x.id===id);$('selected').className='selected';$('selected').innerHTML=`<strong>${text(g.fullName||g.id)}</strong><br>${text(g.organizationName||'-')}<br><button id="clearGuest">ยกเลิกการเลือก</button>`;$('clearGuest').onclick=()=>{selectedId=null;$('selected').className='selected empty';$('selected').textContent='ยังไม่ได้เลือกแขก';renderGuests()};renderGuests()}function renderMap(){const zf=$('zone').value,sf=$('state').value,sm=new Map(seats.map(x=>[x.id,x]));let h='<div class="stage">STAGE</div>';for(const z of config.zones){if(zf&&zf!==z.zoneCode)continue;h+=`<section class="zone"><div class="zone-title">${text(z.zoneName)} · ${text(z.zoneCode)}</div>`;for(let r=z.startRow;r<z.startRow+z.rowCount;r++){h+=`<div class="row"><span class="row-label">แถว ${pad(r)}</span><div class="groups">${z.layoutType==='blocks'?z.blocks.map((b,i)=>`${i?'<span class="aisle">|</span>':''}<div class="group">${Array.from({length:z.seatsPerBlock},(_,j)=>seatButton(sm.get(`${z.zoneCode}-R${pad(r)}-${b}${pad(j+1)}`),`${z.zoneCode}-R${pad(r)}-${b}${pad(j+1)}`,`${b}${pad(j+1)}`,sf)).join('')}</div>`).join(''):`<div class="group">${Array.from({length:z.leftSeats},(_,j)=>seatButton(sm.get(`${z.zoneCode}-R${pad(r)}-L${pad(j+1)}`),`${z.zoneCode}-R${pad(r)}-L${pad(j+1)}`,`L${pad(j+1)}`,sf)).join('')}</div><span class="aisle">ทางเดิน</span><div class="group">${Array.from({length:z.rightSeats},(_,j)=>seatButton(sm.get(`${z.zoneCode}-R${pad(r)}-R${pad(j+1)}`),`${z.zoneCode}-R${pad(r)}-R${pad(j+1)}`,`R${pad(j+1)}`,sf)).join('')}</div>`}</div></div>`}h+='</section>'}$('map').innerHTML=h;$('map').querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>clickSeat(b.dataset.s))}function seatButton(s,id,label,f){if(!s)return`<button class="seat inactive" disabled>${label}</button>`;const st=state(s);return`<button class="seat ${st}" data-s="${id}" style="${f&&f!==st?'visibility:hidden':''}">${label}</button>`}function clickSeat(id){const s=seats.find(x=>x.id===id);if(canEdit()&&selectedId&&state(s)==='available')assign(selectedId,id);else detailSeat(s)}async function assign(gid,sid){const g=guests.find(x=>x.id===gid),s=seats.find(x=>x.id===sid);if(!confirm(`จัด ${g.fullName||gid} ลง ${s.displayLabel||sid} ใช่หรือไม่`))return;try{const gr=doc(db,firebaseCollections.guests,gid),sr=doc(db,firebaseCollections.seats,sid);await runTransaction(db,async tx=>{const[gs,ss]=await Promise.all([tx.get(gr),tx.get(sr)]);if(gs.data().seatId)throw Error('แขกมีที่นั่งแล้ว');if(ss.data().guestId)throw Error('ที่นั่งถูกใช้แล้ว');tx.update(sr,{guestId:gid,guestName:gs.data().fullName||gid,status:'assigned',assignedAt:serverTimestamp(),assignedBy:user.uid,updatedAt:serverTimestamp(),updatedBy:user.uid});tx.update(gr,{seatId:sid,seatZone:ss.data().zoneCode,seatRow:ss.data().rowNumber,seatLabel:ss.data().seatLabel,seatingStatus:'assigned',seatAssignedAt:serverTimestamp(),seatAssignedBy:user.uid,updatedAt:serverTimestamp(),updatedBy:user.uid})});s.guestId=gid;s.guestName=g.fullName||gid;s.status='assigned';g.seatId=sid;g.seatingStatus='assigned';selectedId=null;$('selected').className='selected empty';$('selected').textContent='ยังไม่ได้เลือกแขก';renderGuests();renderAll();show('จัดที่นั่งสำเร็จ','good')}catch(e){show(e.message,'bad')}}function detailSeat(s){$('modalTitle').textContent=s.displayLabel||s.id;$('detail').innerHTML=[['Seat ID',s.id],['Zone',s.zoneName],['แถว',s.rowLabel],['ที่นั่ง',s.seatLabel],['สถานะ',state(s)],['แขก',s.guestName||'-']].map(x=>`<div><b>${x[0]}</b><br>${text(x[1])}</div>`).join('');$('modal').classList.add('show')}function state(s){return s.active===false||s.status==='inactive'?'inactive':s.guestId||s.status==='assigned'?'assigned':'available'}function pad(v){return String(v).padStart(2,'0')}function show(t,c){$('message').textContent=t;$('message').className='msg show '+c}function text(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-</script></body></html>
+<!doctype html>
+<html lang="th">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>จัดการที่นั่ง | Register POC</title>
+    <style>
+        :root {
+            --p: #2679bc;
+            --d: #103b61;
+            --m: #194f7d;
+            --bg: #f5f7f9;
+            --tx: #18212f;
+            --mu: #667085;
+            --bd: #d9dee5;
+            --ok: #067647;
+            --bad: #b42318;
+            --shadow: 0 8px 26px #10182812
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Segoe UI, Tahoma, sans-serif;
+            background: var(--bg);
+            color: var(--tx)
+        }
+
+        button,
+        input,
+        select {
+            font: inherit
+        }
+
+        .shell {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 245px 1fr
+        }
+
+        .side {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            padding: 22px 17px;
+            color: #fff;
+            background: linear-gradient(180deg, var(--m), var(--d))
+        }
+
+        .main {
+            min-width: 0
+        }
+
+        .top {
+            padding: 18px 26px;
+            background: #fff;
+            border-bottom: 1px solid var(--bd);
+            display: flex;
+            justify-content: space-between
+        }
+
+        .top h1 {
+            margin: 0
+        }
+
+        .content {
+            padding: 24px 26px;
+            max-width: 1800px;
+            margin: auto
+        }
+
+        .hero {
+            padding: 22px 24px;
+            border-radius: 17px;
+            color: #fff;
+            background: linear-gradient(135deg, var(--p), var(--m));
+            display: flex;
+            justify-content: space-between
+        }
+
+        .hero h2 {
+            margin: 0 0 6px
+        }
+
+        .kpis {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 11px;
+            margin: 17px 0
+        }
+
+        .kpi {
+            padding: 14px;
+            background: #fff;
+            border: 1px solid var(--bd);
+            border-radius: 13px;
+            box-shadow: var(--shadow)
+        }
+
+        .kpi span {
+            display: block;
+            color: var(--mu);
+            font-size: 11px
+        }
+
+        .kpi strong {
+            display: block;
+            font-size: 25px;
+            margin-top: 5px
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: end;
+            flex-wrap: wrap;
+            padding: 14px;
+            background: #fff;
+            border: 1px solid var(--bd);
+            border-radius: 12px
+        }
+
+        .field label {
+            display: block;
+            font-size: 10px;
+            color: var(--mu);
+            margin-bottom: 5px
+        }
+
+        .field select,
+        .search {
+            padding: 9px;
+            border: 1px solid var(--bd);
+            border-radius: 8px;
+            background: #fff
+        }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 15px;
+            margin-top: 15px
+        }
+
+        .workspace.viewer-mode {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .workspace.viewer-mode>.card {
+            width: 100%;
+            min-width: 0;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid var(--bd);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            overflow: hidden
+        }
+
+        .head {
+            padding: 15px 17px;
+            border-bottom: 1px solid var(--bd)
+        }
+
+        .head h3 {
+            margin: 0 0 4px
+        }
+
+        .head p {
+            margin: 0;
+            color: var(--mu);
+            font-size: 11px
+        }
+
+        .body {
+            padding: 16px;
+            overflow: auto
+        }
+
+        .selected {
+            padding: 10px;
+            border-radius: 8px;
+            background: #eff8ff;
+            color: #175cd3;
+            font-size: 11px
+        }
+
+        .selected.empty {
+            background: #f5f6f7;
+            color: var(--mu)
+        }
+
+        .search {
+            width: 100%;
+            margin-top: 10px
+        }
+
+        .guest-list {
+            max-height: 600px;
+            overflow: auto;
+            margin-top: 9px
+        }
+
+        .guest {
+            width: 100%;
+            display: block;
+            text-align: left;
+            padding: 9px;
+            margin-bottom: 6px;
+            border: 1px solid var(--bd);
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer
+        }
+
+        .guest:hover,
+        .guest.active {
+            border-color: var(--p);
+            background: #eff8ff
+        }
+
+        .guest strong,
+        .guest span {
+            display: block
+        }
+
+        .guest span {
+            font-size: 10px;
+            color: var(--mu);
+            margin-top: 3px
+        }
+
+        .stage {
+            min-width: 950px;
+            padding: 12px;
+            background: #dceefa;
+            color: var(--d);
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 850;
+            letter-spacing: .18em
+        }
+
+        .zone {
+            min-width: 950px;
+            margin-top: 16px
+        }
+
+        .zone-title {
+            padding: 7px 10px;
+            border-radius: 7px;
+            background: #f4f3ff;
+            color: #6941c6;
+            font-weight: 850;
+            font-size: 11px
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 7px 0;
+            min-width: 950px
+        }
+
+        .row-label {
+            width: 70px;
+            text-align: right;
+            color: var(--mu);
+            font-size: 10px
+        }
+
+        .groups {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .group {
+            display: flex;
+            gap: 4px;
+            padding: 5px;
+            border-radius: 8px;
+            background: #fafbfc
+        }
+
+        .aisle {
+            min-width: 36px;
+            color: #98a2b3;
+            text-align: center;
+            font-size: 8px
+        }
+
+        .seat {
+            width: 36px;
+            height: 32px;
+            border: 1px solid #cfd6df;
+            border-radius: 7px;
+            background: #fff;
+            font-size: 8px;
+            font-weight: 800;
+            cursor: pointer
+        }
+
+        .seat.assigned {
+            background: var(--p);
+            color: #fff
+        }
+
+        .seat.inactive {
+            background: #ddd;
+            color: #888
+        }
+
+        .msg {
+            display: none;
+            margin-top: 12px;
+            padding: 11px;
+            border-radius: 8px;
+            font-size: 12px
+        }
+
+        .msg.show {
+            display: block
+        }
+
+        .msg.good {
+            background: #ecfdf3;
+            color: var(--ok)
+        }
+
+        .msg.bad {
+            background: #fef3f2;
+            color: var(--bad)
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: #10182899;
+            display: none;
+            align-items: center;
+            justify-content: center
+        }
+
+        .modal.show {
+            display: flex
+        }
+
+        .dialog {
+            width: min(550px, 94%);
+            background: #fff;
+            border-radius: 14px;
+            padding: 18px
+        }
+
+        .dialog h3 {
+            margin-top: 0
+        }
+
+        .detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px
+        }
+
+        .detail div {
+            padding: 9px;
+            background: #f7f8fa;
+            border-radius: 8px;
+            font-size: 11px
+        }
+
+        @media(max-width:1200px) {
+            .shell {
+                grid-template-columns: 1fr
+            }
+
+            .side {
+                display: none
+            }
+
+            .workspace {
+                grid-template-columns: 1fr
+            }
+
+            .guest-list {
+                max-height: 260px
+            }
+        }
+
+        @media(max-width:700px) {
+            .kpis {
+                grid-template-columns: 1fr
+            }
+
+            .content {
+                padding: 14px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="shell">
+        <aside id="appSidebar" class="side"></aside>
+        <main class="main">
+            <header class="top">
+                <h1>จัดการที่นั่ง</h1><span id="status">กำลังเชื่อมต่อ...</span>
+            </header>
+            <div class="content">
+                <section class="hero">
+                    <div>
+                        <h2>Dynamic Seating Plan</h2><span>เลือกแขก แล้วคลิกที่นั่งว่างเพื่อจัดที่นั่ง</span>
+                    </div><span id="loaded">กำลังโหลด...</span>
+                </section>
+                <section class="kpis">
+                    <div class="kpi"><span>ตาม Configuration</span><strong id="expected">0</strong></div>
+                    <div class="kpi"><span>Seat Documents</span><strong id="total">0</strong></div>
+                    <div class="kpi"><span>ว่าง</span><strong id="available">0</strong></div>
+                    <div class="kpi"><span>จัดแล้ว</span><strong id="assigned">0</strong></div>
+                    <div class="kpi"><span>ใช้งาน</span><strong id="rate">0%</strong></div>
+                </section>
+                <section class="controls">
+                    <div class="field"><label>Zone</label><select id="zone">
+                            <option value="">ทั้งหมด</option>
+                        </select></div>
+                    <div class="field"><label>สถานะ</label><select id="state">
+                            <option value="">ทั้งหมด</option>
+                            <option value="available">ว่าง</option>
+                            <option value="assigned">มีผู้ใช้งาน</option>
+                        </select></div>
+                </section>
+                <div id="message" class="msg"></div>
+                <section class="workspace" class="workspace">
+                    <aside class="card" id="guestPanel">
+                        <div class="head">
+                            <h3>แขกที่ยังไม่มีที่นั่ง</h3>
+                            <p>Admin และ Editor เท่านั้น</p>
+                        </div>
+                        <div class="body">
+                            <div id="selected" class="selected empty">ยังไม่ได้เลือกแขก</div><input id="search"
+                                class="search" placeholder="ค้นหาชื่อ หน่วยงาน Unique Key">
+                            <div id="guestList" class="guest-list"></div>
+                        </div>
+                    </aside>
+                    <section class="card">
+                        <div class="head">
+                            <h3>ผังตาม Configuration</h3>
+                            <p id="instruction">เลือกแขก แล้วคลิกที่นั่งว่าง</p>
+                        </div>
+                        <div class="body">
+                            <div id="map">
+                                <div style="padding:40px;text-align:center">กำลังโหลด...</div>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div class="modal" id="modal">
+        <div class="dialog">
+            <h3 id="modalTitle">รายละเอียด</h3>
+            <div id="detail" class="detail"></div>
+            <p><button id="close">ปิด</button></p>
+        </div>
+    </div>
+    <script type="module">
+        import {firebaseConfig, firebaseCollections, isFirebaseConfigReady} from './firebase-config.js'; import {renderNavigation} from './navigation.js'; import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js'; import {getAuth, onAuthStateChanged, signOut} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js'; import {getFirestore, collection, getDocs, doc, getDoc, runTransaction, serverTimestamp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js'; const $ = x => document.getElementById(x); let auth, db, user, role, config, seats = [], guests = [], blueprint = [], selectedId = null; const roles = ['admin', 'editor', 'viewer']; $('zone').onchange = renderMap; $('state').onchange = renderMap; $('search').oninput = renderGuests; $('close').onclick = () => $('modal').classList.remove('show'); if (!isFirebaseConfigReady()) show('Firebase config ไม่พร้อม', 'bad'); else {const app = initializeApp(firebaseConfig); auth = getAuth(app); db = getFirestore(app); onAuthStateChanged(auth, async u => {if (!u) return location.replace('index.html'); user = u; const t = await u.getIdTokenResult(true); role = String(t.claims.role || '').toLowerCase(); if (!roles.includes(role)) {await signOut(auth); return location.replace('index.html?error=unauthorized')} renderNavigation({activePage: 'seating', user: u, role}); load()})} async function load() {try {const [c, s, g] = await Promise.all([getDoc(doc(db, firebaseCollections.seatingConfigs, 'current')), getDocs(collection(db, firebaseCollections.seats)), getDocs(collection(db, firebaseCollections.guests))]); if (!c.exists()) throw Error('ไม่พบ seatingConfigs/current'); config = c.data(); blueprint = build(config.zones || []); const ids = new Set(blueprint.map(x => x.seatId)); seats = s.docs.map(d => ({id: d.id, ...d.data()})).filter(x => ids.has(x.id)); guests = g.docs.map(d => ({id: d.id, ...d.data()})); $('zone').innerHTML = '<option value="">ทั้งหมด</option>' + config.zones.map(z => `<option value="${z.zoneCode}">${z.zoneName}</option>`).join(''); const editable = canEdit();
+
+$("guestPanel").hidden = !editable;
+
+$("seatingWorkspace").classList.toggle(
+  "viewer-mode",
+  !editable
+);
+
+$("instruction").textContent = editable
+  ? "เลือกแขก แล้วคลิกที่นั่งว่าง"
+  : "โหมดดูอย่างเดียว · คลิกที่นั่งเพื่อดูรายละเอียด"; renderGuests(); renderAll(); $('status').textContent = `พร้อมใช้งาน · Config v${config.version}`; $('loaded').textContent = new Date().toLocaleString('th-TH')} catch (e) {show(e.message, 'bad')} } function canEdit() {return role === 'admin' || role === 'editor'} function build(zones) {const a = []; for (const z of zones) for (let r = z.startRow; r < z.startRow + z.rowCount; r++)if (z.layoutType === 'blocks') for (const b of z.blocks) for (let n = 1; n <= z.seatsPerBlock; n++)a.push({seatId: `${z.zoneCode}-R${pad(r)}-${b}${pad(n)}`, zoneCode: z.zoneCode, zoneName: z.zoneName, rowNumber: r, seatLabel: `${b}${pad(n)}`, blockCode: b}); else for (const side of ['left', 'right']) for (let n = 1; n <= (side === 'left' ? z.leftSeats : z.rightSeats); n++) {const c = side === 'left' ? 'L' : 'R'; a.push({seatId: `${z.zoneCode}-R${pad(r)}-${c}${pad(n)}`, zoneCode: z.zoneCode, zoneName: z.zoneName, rowNumber: r, seatLabel: `${c}${pad(n)}`, side})} return a} function renderAll() {const a = seats.filter(x => state(x) === 'available').length, d = seats.filter(x => state(x) === 'assigned').length; $('expected').textContent = blueprint.length; $('total').textContent = seats.length; $('available').textContent = a; $('assigned').textContent = d; $('rate').textContent = (seats.length ? Math.round(d / seats.length * 100) : 0) + '%'; renderMap()} function renderGuests() {if (!canEdit()) return; const q = $('search').value.toLowerCase(), a = guests.filter(g => !g.seatId && g.seatingStatus !== 'assigned').filter(g => !q || [g.fullName, g.organizationName, g.uniqueKey].join(' ').toLowerCase().includes(q)); $('guestList').innerHTML = a.length ? a.map(g => `<button class="guest ${g.id === selectedId ? 'active' : ''}" data-g="${g.id}"><strong>${text(g.fullName || g.id)}</strong><span>${text(g.organizationName || '-')} · ${text(g.uniqueKey || '-')}</span></button>`).join('') : '<p>ไม่พบรายชื่อ</p>'; $('guestList').querySelectorAll('[data-g]').forEach(b => b.onclick = () => selectGuest(b.dataset.g))} function selectGuest(id) {selectedId = id; const g = guests.find(x => x.id === id); $('selected').className = 'selected'; $('selected').innerHTML = `<strong>${text(g.fullName || g.id)}</strong><br>${text(g.organizationName || '-')}<br><button id="clearGuest">ยกเลิกการเลือก</button>`; $('clearGuest').onclick = () => {selectedId = null; $('selected').className = 'selected empty'; $('selected').textContent = 'ยังไม่ได้เลือกแขก'; renderGuests()}; renderGuests()} function renderMap() {const zf = $('zone').value, sf = $('state').value, sm = new Map(seats.map(x => [x.id, x])); let h = '<div class="stage">STAGE</div>'; for (const z of config.zones) {if (zf && zf !== z.zoneCode) continue; h += `<section class="zone"><div class="zone-title">${text(z.zoneName)} · ${text(z.zoneCode)}</div>`; for (let r = z.startRow; r < z.startRow + z.rowCount; r++) {h += `<div class="row"><span class="row-label">แถว ${pad(r)}</span><div class="groups">${z.layoutType === 'blocks' ? z.blocks.map((b, i) => `${i ? '<span class="aisle">|</span>' : ''}<div class="group">${Array.from({length: z.seatsPerBlock}, (_, j) => seatButton(sm.get(`${z.zoneCode}-R${pad(r)}-${b}${pad(j + 1)}`), `${z.zoneCode}-R${pad(r)}-${b}${pad(j + 1)}`, `${b}${pad(j + 1)}`, sf)).join('')}</div>`).join('') : `<div class="group">${Array.from({length: z.leftSeats}, (_, j) => seatButton(sm.get(`${z.zoneCode}-R${pad(r)}-L${pad(j + 1)}`), `${z.zoneCode}-R${pad(r)}-L${pad(j + 1)}`, `L${pad(j + 1)}`, sf)).join('')}</div><span class="aisle">ทางเดิน</span><div class="group">${Array.from({length: z.rightSeats}, (_, j) => seatButton(sm.get(`${z.zoneCode}-R${pad(r)}-R${pad(j + 1)}`), `${z.zoneCode}-R${pad(r)}-R${pad(j + 1)}`, `R${pad(j + 1)}`, sf)).join('')}</div>`}</div></div>`} h += '</section>'} $('map').innerHTML = h; $('map').querySelectorAll('[data-s]').forEach(b => b.onclick = () => clickSeat(b.dataset.s))} function seatButton(s, id, label, f) {if (!s) return `<button class="seat inactive" disabled>${label}</button>`; const st = state(s); return `<button class="seat ${st}" data-s="${id}" style="${f && f !== st ? 'visibility:hidden' : ''}">${label}</button>`} function clickSeat(id) {const s = seats.find(x => x.id === id); if (canEdit() && selectedId && state(s) === 'available') assign(selectedId, id); else detailSeat(s)} async function assign(gid, sid) {const g = guests.find(x => x.id === gid), s = seats.find(x => x.id === sid); if (!confirm(`จัด ${g.fullName || gid} ลง ${s.displayLabel || sid} ใช่หรือไม่`)) return; try {const gr = doc(db, firebaseCollections.guests, gid), sr = doc(db, firebaseCollections.seats, sid); await runTransaction(db, async tx => {const [gs, ss] = await Promise.all([tx.get(gr), tx.get(sr)]); if (gs.data().seatId) throw Error('แขกมีที่นั่งแล้ว'); if (ss.data().guestId) throw Error('ที่นั่งถูกใช้แล้ว'); tx.update(sr, {guestId: gid, guestName: gs.data().fullName || gid, status: 'assigned', assignedAt: serverTimestamp(), assignedBy: user.uid, updatedAt: serverTimestamp(), updatedBy: user.uid}); tx.update(gr, {seatId: sid, seatZone: ss.data().zoneCode, seatRow: ss.data().rowNumber, seatLabel: ss.data().seatLabel, seatingStatus: 'assigned', seatAssignedAt: serverTimestamp(), seatAssignedBy: user.uid, updatedAt: serverTimestamp(), updatedBy: user.uid})}); s.guestId = gid; s.guestName = g.fullName || gid; s.status = 'assigned'; g.seatId = sid; g.seatingStatus = 'assigned'; selectedId = null; $('selected').className = 'selected empty'; $('selected').textContent = 'ยังไม่ได้เลือกแขก'; renderGuests(); renderAll(); show('จัดที่นั่งสำเร็จ', 'good')} catch (e) {show(e.message, 'bad')} } function detailSeat(s) {$('modalTitle').textContent = s.displayLabel || s.id; $('detail').innerHTML = [['Seat ID', s.id], ['Zone', s.zoneName], ['แถว', s.rowLabel], ['ที่นั่ง', s.seatLabel], ['สถานะ', state(s)], ['แขก', s.guestName || '-']].map(x => `<div><b>${x[0]}</b><br>${text(x[1])}</div>`).join(''); $('modal').classList.add('show')} function state(s) {return s.active === false || s.status === 'inactive' ? 'inactive' : s.guestId || s.status === 'assigned' ? 'assigned' : 'available'} function pad(v) {return String(v).padStart(2, '0')} function show(t, c) {$('message').textContent = t; $('message').className = 'msg show ' + c} function text(v) {return String(v ?? '').replace(/[&<>'"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[c]))}
+    </script>
+</body>
+
+</html>
