@@ -13,7 +13,10 @@ export const firebaseCollections = Object.freeze({
   guests: "guests",
   imports: "imports",
   connectionTests: "connection_tests",
+  // Collection เดิม เก็บไว้สำรอง
   seats: "seats"
+  // Collection ใหม่ที่ระบบจะใช้งาน
+  seats: "seats_v2"
 });
 
 export function isFirebaseConfigReady(config = firebaseConfig) {
