@@ -34,7 +34,40 @@ async function loadExistingConfig(){try{const snap=await getDoc(doc(db,firebaseC
 function emptyZone(){const maxRow=Math.max(0,...zones.map(z=>Number(z.startRow)+Number(z.rowCount)-1));return{zoneCode:'ZONE'+(zones.length+1),zoneName:'Zone '+(zones.length+1),startRow:maxRow+1,rowCount:1,layoutType:'split',leftSeats:10,rightSeats:10}}
 function renderZoneForms(){$('zoneList').innerHTML=zones.map((z,i)=>`<div class="zone-card" data-zone="${i}"><div class="zone-header"><div class="zone-index"><span class="zone-no">${i+1}</span>${esc(z.zoneName||'New Zone')}</div><button class="btn danger remove-zone" type="button" data-index="${i}">ลบ Zone</button></div><div class="form-grid"><div class="field"><label>Zone Code</label><input data-key="zoneCode" value="${esc(z.zoneCode||'')}"></div><div class="field"><label>ชื่อ Zone</label><input data-key="zoneName" value="${esc(z.zoneName||'')}"></div><div class="field"><label>แถวเริ่มต้น</label><input data-key="startRow" type="number" min="1" value="${Number(z.startRow||1)}"></div><div class="field"><label>จำนวนแถว</label><input data-key="rowCount" type="number" min="1" value="${Number(z.rowCount||1)}"></div><div class="field"><label>รูปแบบ</label><select data-key="layoutType"><option value="blocks" ${z.layoutType==='blocks'?'selected':''}>Blocks</option><option value="split" ${z.layoutType==='split'?'selected':''}>Left / Right</option></select></div>${conditionalFields(z)}</div></div>`).join('');$('zoneList').querySelectorAll('[data-key]').forEach(input=>input.oninput=input.onchange=event=>updateZone(event));$('zoneList').querySelectorAll('.remove-zone').forEach(button=>button.onclick=()=>{zones.splice(Number(button.dataset.index),1);renderZoneForms();invalidate()})}
 function conditionalFields(z){return z.layoutType==='blocks'?`<div class="field"><label>Blocks คั่นด้วย comma</label><input data-key="blocks" value="${esc(z.blocks||'A,B,C,D')}"></div><div class="field"><label>ที่นั่งต่อ Block</label><input data-key="seatsPerBlock" type="number" min="1" value="${Number(z.seatsPerBlock||5)}"></div>`:`<div class="field"><label>ที่นั่งฝั่งซ้าย</label><input data-key="leftSeats" type="number" min="0" value="${Number(z.leftSeats??10)}"></div><div class="field"><label>ที่นั่งฝั่งขวา</label><input data-key="rightSeats" type="number" min="0" value="${Number(z.rightSeats??10)}"></div>`}
-function updateZone(event){const card=event.target.closest('[data-zone]'),index=Number(card.dataset.zone),key=event.target.dataset.key,value=event.target.type==='number'?Number(event.target.value):event.target.value;zones[index][key]=value;if(key==='layoutType')renderZoneForms();invalidate()}
+function updateZone(event) {
+  const card = event.target.closest("[data-zone]");
+  const index = Number(card.dataset.zone);
+  const key = event.target.dataset.key;
+
+  const value =
+    event.target.type === "number"
+      ? Number(event.target.value)
+      : event.target.value;
+
+  zones[index][key] = value;
+
+  if (key === "layoutType") {
+    if (value === "blocks") {
+      zones[index].blocks =
+        zones[index].blocks || "A,B,C,D";
+
+      zones[index].seatsPerBlock =
+        Number(zones[index].seatsPerBlock) || 5;
+    }
+
+    if (value === "split") {
+      zones[index].leftSeats =
+        Number(zones[index].leftSeats) || 10;
+
+      zones[index].rightSeats =
+        Number(zones[index].rightSeats) || 10;
+    }
+
+    renderZoneForms();
+  }
+
+  invalidate();
+}
 function invalidate(){validatedConfig=null;$('saveBtn').disabled=true;$('validationState').textContent='-'}
 function previewAndValidate(){try{const result=buildConfiguration();validatedConfig=result.config;$('zoneCount').textContent=result.config.zones.length;$('rowCount').textContent=result.totalRows;$('seatCount').textContent=result.seats.length;$('validationState').textContent='PASS';$('saveBtn').disabled=false;renderPreview(result.config.zones);show('formMessage',`Validation ผ่าน · ${result.totalRows} แถว · ${result.seats.length} ที่นั่ง`,'good')}catch(error){validatedConfig=null;$('saveBtn').disabled=true;$('validationState').textContent='ERROR';show('formMessage',error.message,'bad')}}
 function buildConfiguration(){if(!zones.length)throw new Error('ต้องมีอย่างน้อย 1 Zone');const rowSet=new Set(),seatIds=new Set(),seats=[],cleanZones=zones.map(raw=>normalizeZone(raw));for(const zone of cleanZones){for(let row=zone.startRow;row<zone.startRow+zone.rowCount;row++){if(rowSet.has(row))throw new Error(`แถว ${row} ถูกใช้งานซ้ำระหว่าง Zone`);rowSet.add(row);if(zone.layoutType==='blocks'){for(const block of zone.blocks){for(let n=1;n<=zone.seatsPerBlock;n++){addSeat(seats,seatIds,`${zone.zoneCode}-R${pad(row)}-${block}${pad(n)}`)}}}else{for(let n=1;n<=zone.leftSeats;n++)addSeat(seats,seatIds,`${zone.zoneCode}-R${pad(row)}-L${pad(n)}`);for(let n=1;n<=zone.rightSeats;n++)addSeat(seats,seatIds,`${zone.zoneCode}-R${pad(row)}-R${pad(n)}`)}}}return{config:{status:'draft',zones:cleanZones,totalSeats:seats.length},seats,totalRows:rowSet.size}}
