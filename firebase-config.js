@@ -17,6 +17,8 @@ export const firebaseCollections = Object.freeze({
   seats: "seats"
   // Collection ใหม่ที่ระบบจะใช้งาน
   seats: "seats_v2"
+  // เก็บ Configuration ของผังที่นั่ง
+  seatingConfigs: "seatingConfigs"
 });
 
 export function isFirebaseConfigReady(config = firebaseConfig) {
