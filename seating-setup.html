@@ -74,7 +74,63 @@ function buildConfiguration(){if(!zones.length)throw new Error('ต้องม�
 function normalizeZone(raw){const code=String(raw.zoneCode||'').trim().toUpperCase().replace(/[^A-Z0-9_-]/g,'');const name=String(raw.zoneName||'').trim();const startRow=Number(raw.startRow),rowCount=Number(raw.rowCount),layoutType=raw.layoutType;if(!code||!name)throw new Error('Zone Code และชื่อ Zone ห้ามว่าง');if(!Number.isInteger(startRow)||startRow<1||!Number.isInteger(rowCount)||rowCount<1)throw new Error(`${code}: แถวเริ่มต้นและจำนวนแถวต้องเป็นจำนวนเต็มมากกว่า 0`);if(layoutType==='blocks'){const blocks=String(raw.blocks||'').split(',').map(x=>x.trim().toUpperCase()).filter(Boolean);const unique=[...new Set(blocks)],seatsPerBlock=Number(raw.seatsPerBlock);if(!unique.length||unique.length!==blocks.length)throw new Error(`${code}: Blocks ห้ามว่างหรือซ้ำ`);if(!Number.isInteger(seatsPerBlock)||seatsPerBlock<1)throw new Error(`${code}: ที่นั่งต่อ Block ไม่ถูกต้อง`);return{zoneCode:code,zoneName:name,startRow,rowCount,layoutType,blocks:unique,seatsPerBlock}}const leftSeats=Number(raw.leftSeats),rightSeats=Number(raw.rightSeats);if(!Number.isInteger(leftSeats)||leftSeats<0||!Number.isInteger(rightSeats)||rightSeats<0||leftSeats+rightSeats<1)throw new Error(`${code}: จำนวนที่นั่งซ้าย/ขวาไม่ถูกต้อง`);return{zoneCode:code,zoneName:name,startRow,rowCount,layoutType:'split',leftSeats,rightSeats}}
 function addSeat(seats,ids,id){if(ids.has(id))throw new Error(`Seat ID ซ้ำ: ${id}`);ids.add(id);seats.push(id)}
 function renderPreview(configZones){let html='<div class="stage">STAGE</div>';for(const zone of configZones){html+=`<div class="preview-zone"><div class="zone-title">${esc(zone.zoneName)} · ${esc(zone.zoneCode)}</div>`;for(let row=zone.startRow;row<zone.startRow+zone.rowCount;row++){let chips=[];if(zone.layoutType==='blocks'){for(const block of zone.blocks){chips.push(...Array.from({length:zone.seatsPerBlock},(_,i)=>`<span class="seat-chip">${block}${pad(i+1)}</span>`));chips.push('<span class="separator">|</span>')}chips.pop()}else{chips.push(...Array.from({length:zone.leftSeats},(_,i)=>`<span class="seat-chip">L${pad(i+1)}</span>`));chips.push('<span class="separator">ทางเดิน</span>');chips.push(...Array.from({length:zone.rightSeats},(_,i)=>`<span class="seat-chip">R${pad(i+1)}</span>`))}html+=`<div class="preview-row"><div class="row-name">แถว ${pad(row)}</div>${chips.join('')}</div>`}html+='</div>'}$('preview').innerHTML=html}
-async function saveConfiguration(){if(!validatedConfig)return;const button=$('saveBtn');button.disabled=true;try{const version=currentVersion+1;await setDoc(doc(db,firebaseCollections.seatingConfigs,'current'),{...validatedConfig,version,status:'active',updatedAt:serverTimestamp(),updatedBy:user.uid,updatedByEmail:user.email||null,createdAt:currentVersion?undefined:serverTimestamp(),createdBy:currentVersion?undefined:user.uid},{merge:true});currentVersion=version;show('saveMessage',`บันทึก seatingConfigs/current สำเร็จ\nVersion: ${version}\nจำนวนที่นั่ง: ${validatedConfig.totalSeats}`,'good')}catch(error){show('saveMessage',(error.code||'error')+': '+error.message,'bad')}finally{button.disabled=false}}
+async function saveConfiguration() {
+  if (!validatedConfig) {
+    return;
+  }
+
+  const button = $("saveBtn");
+  button.disabled = true;
+
+  try {
+    const version = currentVersion + 1;
+
+    const configData = {
+      ...validatedConfig,
+      version,
+      status: "active",
+      updatedAt: serverTimestamp(),
+      updatedBy: user.uid,
+      updatedByEmail: user.email || null
+    };
+
+    // เพิ่ม createdAt และ createdBy เฉพาะการสร้างครั้งแรก
+    if (currentVersion === 0) {
+      configData.createdAt = serverTimestamp();
+      configData.createdBy = user.uid;
+    }
+
+    await setDoc(
+      doc(
+        db,
+        firebaseCollections.seatingConfigs,
+        "current"
+      ),
+      configData,
+      {
+        merge: true
+      }
+    );
+
+    currentVersion = version;
+
+    show(
+      "saveMessage",
+      `บันทึก seatingConfigs/current สำเร็จ
+Version: ${version}
+จำนวนที่นั่ง: ${validatedConfig.totalSeats}`,
+      "good"
+    );
+  } catch (error) {
+    show(
+      "saveMessage",
+      `${error.code || "error"}: ${error.message}`,
+      "bad"
+    );
+  } finally {
+    button.disabled = false;
+  }
+}
 function pad(value){return String(value).padStart(2,'0')}function show(id,text,type){$(id).textContent=text;$(id).className='message show '+type}function esc(value){return String(value??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 </script>
 </body>
