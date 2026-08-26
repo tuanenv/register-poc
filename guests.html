@@ -1,83 +1,615 @@
 <!doctype html>
 <html lang="th">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>รายชื่อแขก | Register POC</title>
-<style>
-:root{--primary:#2679bc;--primary-dark:#103b61;--primary-soft:#e7f4fd;--bg:#f5f7f9;--white:#fff;--text:#18212f;--muted:#667085;--border:#d9dee5;--red:#b42318;--red-soft:#fef3f2;--green:#067647;--green-soft:#ecfdf3;--amber:#b54708;--amber-soft:#fffaeb;--blue:#175cd3;--blue-soft:#eff8ff;--shadow:0 8px 26px rgba(16,24,40,.07)}*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",Tahoma,"Noto Sans Thai",sans-serif;background:var(--bg);color:var(--text)}button,input,select{font:inherit}button{cursor:pointer}.shell{min-height:100vh;display:grid;grid-template-columns:245px 1fr}.sidebar{background:linear-gradient(180deg,#194f7d,#103b61);color:#fff;padding:22px 17px;position:sticky;top:0;height:100vh}.brand{position:relative;display:flex;gap:12px;align-items:center;margin-bottom:34px}.mark{width:42px;height:42px;border-radius:12px;background:#ffffff20;display:grid;place-items:center;font-weight:850}.brand small,.brand strong{display:block}.brand small{opacity:.72;margin-top:2px}.brand-logo-link{display:flex;align-items:center;justify-content:center;width:78px;height:52px;padding:4px;border-radius:12px;background:#fff;text-decoration:none;box-shadow:0 6px 18px #001c351f}.spark-logo{display:block;width:100%;height:100%;object-fit:contain}.brand:after{content:"";position:absolute;left:17px;right:17px;bottom:-14px;height:3px;border-radius:999px;background:linear-gradient(90deg,#4b5df5,#f7a33d,#f05b78,#42a5dd,#69c20f)}.nav-label{font-size:11px;opacity:.55;letter-spacing:.08em;margin:20px 10px 8px}.nav{display:flex;gap:10px;align-items:center;padding:11px 12px;border-radius:10px;color:#fff;text-decoration:none;opacity:.78;margin:3px 0}.nav.active{background:#ffffff1d;opacity:1}.dot{width:8px;height:8px;border-radius:50%;background:#67d5e8}.userbox{position:absolute;left:17px;right:17px;bottom:20px;padding-top:14px;border-top:1px solid #ffffff22;font-size:12px}.userbox strong{display:block;margin-bottom:3px}.side-signout{width:100%;margin-top:11px;padding:8px 10px;border:1px solid #ffffff45;border-radius:8px;background:#ffffff12;color:#fff;font-weight:750;cursor:pointer}.side-signout:hover{background:#ffffff22}.main{min-width:0}.topbar{background:#fff;border-bottom:1px solid var(--border);padding:18px 26px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:20}.topbar h1{font-size:23px;margin:2px 0 0}.eyebrow{font-size:12px;color:var(--muted)}.status{font-size:12px;font-weight:750;display:flex;align-items:center;gap:8px;color:var(--amber)}.status i{width:9px;height:9px;border-radius:50%;background:#f79009;box-shadow:0 0 0 4px #fef0c7}.status.online{color:var(--green)}.status.online i{background:#12b76a;box-shadow:0 0 0 4px #d1fadf}.content{padding:24px 26px 50px;max-width:1800px;margin:auto}.hero{background:linear-gradient(135deg,#2679bc,#194f7d);color:#fff;border-radius:17px;padding:22px 24px;box-shadow:var(--shadow);display:flex;justify-content:space-between;gap:18px;align-items:center}.hero h2{margin:0 0 6px;font-size:24px}.hero p{margin:0;opacity:.8;font-size:13px}.pill{background:#ffffff1e;border-radius:999px;padding:8px 12px;font-size:12px;white-space:nowrap}.card{background:#fff;border:1px solid var(--border);border-radius:15px;box-shadow:var(--shadow);margin-top:17px;overflow:hidden}.card-head{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:14px;align-items:center}.card-head h3{margin:0 0 4px;font-size:17px}.card-head p{margin:0;color:var(--muted);font-size:12px}.card-body{padding:19px}.config-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.field label{display:block;font-size:11px;font-weight:750;color:#475467;margin-bottom:5px}.field input,.field select{width:100%;border:1px solid #cfd6df;border-radius:9px;padding:10px 11px;background:#fff;color:var(--text)}.btns{display:flex;gap:9px;flex-wrap:wrap}.btn{border:1px solid #cfd6df;background:#fff;color:#344054;border-radius:9px;padding:9px 13px;font-weight:700}.btn:hover:not(:disabled){background:#f2f4f7}.btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}.btn.primary:hover:not(:disabled){background:var(--primary-dark)}.btn:disabled{cursor:not-allowed;opacity:.45}.alert{display:none;padding:11px 13px;border-radius:9px;margin-top:13px;font-size:12px;white-space:pre-wrap}.alert.show{display:block}.alert.good{background:var(--green-soft);color:var(--green)}.alert.bad{background:var(--red-soft);color:var(--red)}.kpis{display:grid;grid-template-columns:repeat(6,minmax(120px,1fr));gap:11px;margin-top:17px}.kpi{background:#fff;border:1px solid var(--border);border-radius:13px;padding:14px;box-shadow:var(--shadow)}.kpi span{display:block;color:var(--muted);font-size:11px}.kpi strong{display:block;font-size:25px;margin-top:6px}.kpi.green strong{color:var(--green)}.kpi.blue strong{color:var(--blue)}.kpi.amber strong{color:var(--amber)}.filters{display:grid;grid-template-columns:2fr repeat(5,minmax(140px,1fr));gap:10px}.searchbox{position:relative}.searchbox input{padding-left:34px}.searchbox b{position:absolute;left:12px;top:31px;color:#98a2b3}.filter-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:13px}.result-text{color:var(--muted);font-size:12px}.table-wrap{overflow:auto;max-height:610px}table{border-collapse:separate;border-spacing:0;min-width:1620px;width:100%;font-size:12px}th,td{padding:10px 11px;border-bottom:1px solid #eaecf0;text-align:left;white-space:nowrap;vertical-align:middle}th{position:sticky;top:0;z-index:5;background:#eaf4fb;color:#103b61;font-size:11px}tbody tr:hover{background:#f8fbfa}.name{font-weight:750;color:#101828}.sub{color:var(--muted);font-size:11px;margin-top:2px}.tag{display:inline-flex;padding:3px 8px;border-radius:999px;font-size:10px;font-weight:800}.tag.green{background:#dcfae6;color:#067647}.tag.gray{background:#f2f4f7;color:#475467}.tag.blue{background:#dbeafe;color:#1d4ed8}.tag.amber{background:#fef0c7;color:#93370d}.tag.red{background:#fee4e2;color:#b42318}.action-buttons{display:flex;gap:6px}.linkbtn{border:0;background:var(--primary-soft);color:var(--primary);font-weight:750;padding:6px 8px;border-radius:7px}.linkbtn.edit{color:#6941c6}.linkbtn.checkin{color:var(--green)}.pagination{padding:13px 17px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border)}.pages{display:flex;gap:5px}.page{min-width:34px;height:34px;border:1px solid var(--border);border-radius:8px;background:#fff}.page.active{background:var(--primary);color:#fff;border-color:var(--primary)}.empty{padding:40px;text-align:center;color:var(--muted)}.loading{display:none;padding:28px;text-align:center;color:var(--muted)}.loading.show{display:block}.modal{position:fixed;inset:0;background:#10182899;z-index:100;display:none;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.dialog{background:#fff;border-radius:17px;width:min(920px,100%);max-height:92vh;overflow:auto;box-shadow:0 24px 70px #0004}.dialog-head{padding:20px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:14px}.dialog-head h3{margin:0 0 4px}.close{border:0;background:#f2f4f7;width:36px;height:36px;border-radius:50%;font-size:20px}.detail-body{padding:20px 22px}.detail-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.detail{padding:12px;background:#f8fafb;border-radius:10px}.detail span{display:block;font-size:10px;color:var(--muted);margin-bottom:5px}.detail strong{font-size:13px;word-break:break-word}.wide{grid-column:1/-1}.session-card{margin-top:17px}.session-row{display:flex;justify-content:space-between;align-items:center;gap:14px}.role-badge{display:inline-flex;margin-top:5px;padding:3px 8px;border-radius:999px;background:var(--primary-soft);color:var(--primary);font-size:10px;font-weight:850;text-transform:uppercase}.nav.role-hidden{display:none}.footer-note{font-size:11px;color:var(--muted);margin-top:14px;line-height:1.6}@media(max-width:1200px){.shell{grid-template-columns:1fr}.sidebar{display:none}.filters{grid-template-columns:repeat(3,1fr)}.kpis{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){.content,.topbar{padding-left:14px;padding-right:14px}.hero{align-items:flex-start;flex-direction:column}.config-grid,.filters,.detail-grid,.kpis{grid-template-columns:1fr}.card-head,.filter-actions{align-items:flex-start;flex-direction:column}}
-</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>จัดการที่นั่ง | Register POC</title>
+    <style>
+        :root {
+            --p: #2679bc;
+            --d: #103b61;
+            --m: #194f7d;
+            --bg: #f5f7f9;
+            --tx: #18212f;
+            --mu: #667085;
+            --bd: #d9dee5;
+            --ok: #067647;
+            --bad: #b42318;
+            --shadow: 0 8px 26px #10182812
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Segoe UI, Tahoma, sans-serif;
+            background: var(--bg);
+            color: var(--tx)
+        }
+
+        button,
+        input,
+        select {
+            font: inherit
+        }
+
+        .shell {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 245px 1fr
+        }
+
+        .side {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            padding: 22px 17px;
+            color: #fff;
+            background: linear-gradient(180deg, var(--m), var(--d))
+        }
+
+        .main {
+            min-width: 0
+        }
+
+        .top {
+            padding: 18px 26px;
+            background: #fff;
+            border-bottom: 1px solid var(--bd);
+            display: flex;
+            justify-content: space-between
+        }
+
+        .top h1 {
+            margin: 0
+        }
+
+        .content {
+            padding: 24px 26px;
+            max-width: 1800px;
+            margin: auto
+        }
+
+        .hero {
+            padding: 22px 24px;
+            border-radius: 17px;
+            color: #fff;
+            background: linear-gradient(135deg, var(--p), var(--m));
+            display: flex;
+            justify-content: space-between
+        }
+
+        .hero h2 {
+            margin: 0 0 6px
+        }
+
+        .kpis {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 11px;
+            margin: 17px 0
+        }
+
+        .kpi {
+            padding: 14px;
+            background: #fff;
+            border: 1px solid var(--bd);
+            border-radius: 13px;
+            box-shadow: var(--shadow)
+        }
+
+        .kpi span {
+            display: block;
+            color: var(--mu);
+            font-size: 11px
+        }
+
+        .kpi strong {
+            display: block;
+            font-size: 25px;
+            margin-top: 5px
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: end;
+            flex-wrap: wrap;
+            padding: 14px;
+            background: #fff;
+            border: 1px solid var(--bd);
+            border-radius: 12px
+        }
+
+        .field label {
+            display: block;
+            font-size: 10px;
+            color: var(--mu);
+            margin-bottom: 5px
+        }
+
+        .field select,
+        .search {
+            padding: 9px;
+            border: 1px solid var(--bd);
+            border-radius: 8px;
+            background: #fff
+        }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 15px;
+            margin-top: 15px
+        }
+
+        .workspace.viewer-mode {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .workspace.viewer-mode>.card {
+            width: 100%;
+            min-width: 0;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid var(--bd);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            overflow: hidden
+        }
+
+        .head {
+            padding: 15px 17px;
+            border-bottom: 1px solid var(--bd)
+        }
+
+        .head h3 {
+            margin: 0 0 4px
+        }
+
+        .head p {
+            margin: 0;
+            color: var(--mu);
+            font-size: 11px
+        }
+
+        .body {
+            padding: 16px;
+            overflow: auto
+        }
+
+        .selected {
+            padding: 10px;
+            border-radius: 8px;
+            background: #eff8ff;
+            color: #175cd3;
+            font-size: 11px
+        }
+
+        .selected.empty {
+            background: #f5f6f7;
+            color: var(--mu)
+        }
+
+        .search {
+            width: 100%;
+            margin-top: 10px
+        }
+
+        .guest-list {
+            max-height: 600px;
+            overflow: auto;
+            margin-top: 9px
+        }
+
+        .guest {
+            width: 100%;
+            display: block;
+            text-align: left;
+            padding: 9px;
+            margin-bottom: 6px;
+            border: 1px solid var(--bd);
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer
+        }
+
+        .guest:hover,
+        .guest.active {
+            border-color: var(--p);
+            background: #eff8ff
+        }
+
+        .guest strong,
+        .guest span {
+            display: block
+        }
+
+        .guest span {
+            font-size: 10px;
+            color: var(--mu);
+            margin-top: 3px
+        }
+
+        .stage {
+            min-width: 950px;
+            padding: 12px;
+            background: #dceefa;
+            color: var(--d);
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 850;
+            letter-spacing: .18em
+        }
+
+        .zone {
+            min-width: 950px;
+            margin-top: 16px
+        }
+
+        .zone-title {
+            padding: 7px 10px;
+            border-radius: 7px;
+            background: #f4f3ff;
+            color: #6941c6;
+            font-weight: 850;
+            font-size: 11px
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 7px 0;
+            min-width: 950px
+        }
+
+        .row-label {
+            width: 70px;
+            text-align: right;
+            color: var(--mu);
+            font-size: 10px
+        }
+
+        .groups {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .group {
+            display: flex;
+            gap: 4px;
+            padding: 5px;
+            border-radius: 8px;
+            background: #fafbfc
+        }
+
+        .aisle {
+            min-width: 36px;
+            color: #98a2b3;
+            text-align: center;
+            font-size: 8px
+        }
+
+        .seat {
+            width: 36px;
+            height: 32px;
+            border: 1px solid #cfd6df;
+            border-radius: 7px;
+            background: #fff;
+            font-size: 8px;
+            font-weight: 800;
+            cursor: pointer
+        }
+
+        .seat.assigned {
+            background: var(--p);
+            color: #fff
+        }
+
+        .seat.inactive {
+            background: #ddd;
+            color: #888
+        }
+
+        .msg {
+            display: none;
+            margin-top: 12px;
+            padding: 11px;
+            border-radius: 8px;
+            font-size: 12px
+        }
+
+        .msg.show {
+            display: block
+        }
+
+        .msg.good {
+            background: #ecfdf3;
+            color: var(--ok)
+        }
+
+        .msg.bad {
+            background: #fef3f2;
+            color: var(--bad)
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: #10182899;
+            display: none;
+            align-items: center;
+            justify-content: center
+        }
+
+        .modal.show {
+            display: flex
+        }
+
+        .dialog {
+            width: min(550px, 94%);
+            background: #fff;
+            border-radius: 14px;
+            padding: 18px
+        }
+
+        .dialog h3 {
+            margin-top: 0
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 14px;
+        }
+        .modal-actions button {
+            padding: 8px 11px;
+            border: 1px solid var(--bd);
+            border-radius: 8px;
+            background: #fff;
+            font-weight: 750;
+            cursor: pointer;
+        }
+        .modal-actions .primary {
+            border-color: var(--p);
+            background: var(--p);
+            color: #fff;
+        }
+        .modal-actions .danger {
+            border-color: #fda29b;
+            color: var(--bad);
+        }
+        .detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px
+        }
+
+        .detail div {
+            padding: 9px;
+            background: #f7f8fa;
+            border-radius: 8px;
+            font-size: 11px
+        }
+
+        @media(max-width:1200px) {
+            .shell {
+                grid-template-columns: 1fr
+            }
+
+            .side {
+                display: none
+            }
+
+            .workspace {
+                grid-template-columns: 1fr
+            }
+
+            .guest-list {
+                max-height: 260px
+            }
+        }
+
+        @media(max-width:700px) {
+            .kpis {
+                grid-template-columns: 1fr
+            }
+
+            .content {
+                padding: 14px
+            }
+        }
+    </style>
 </head>
+
 <body>
-<div class="shell">
-<aside id="appSidebar" class="sidebar"></aside>
-<main class="main">
-<header class="topbar"><div><div class="eyebrow">ระบบจัดการลงทะเบียน</div><h1>รายชื่อแขก</h1></div><div class="status" id="systemStatus"><i></i><span>ยังไม่เชื่อมต่อ</span></div></header>
-<div class="content">
-<section class="hero"><div><h2>Guest Directory</h2><p>ค้นหา กรอง และตรวจสอบข้อมูลรายชื่อแขกจาก Cloud Firestore</p></div><div class="pill" id="lastLoaded">ยังไม่ได้โหลดข้อมูล</div></section>
+    <div class="shell">
+        <aside id="appSidebar" class="side"></aside>
+        <main class="main">
+            <header class="top">
+                <h1>จัดการที่นั่ง</h1><span id="status">กำลังเชื่อมต่อ...</span>
+            </header>
+            <div class="content">
+                <section class="hero">
+                    <div>
+                        <h2>Dynamic Seating Plan</h2><span>เลือกแขก แล้วคลิกที่นั่งว่างเพื่อจัดที่นั่ง</span>
+                    </div><span id="loaded">กำลังโหลด...</span>
+                </section>
+                <section class="kpis">
+                    <div class="kpi"><span>ตาม Configuration</span><strong id="expected">0</strong></div>
+                    <div class="kpi"><span>Seat Documents</span><strong id="total">0</strong></div>
+                    <div class="kpi"><span>ว่าง</span><strong id="available">0</strong></div>
+                    <div class="kpi"><span>จัดแล้ว</span><strong id="assigned">0</strong></div>
+                    <div class="kpi"><span>ใช้งาน</span><strong id="rate">0%</strong></div>
+                </section>
+                <section class="controls">
+                    <div class="field"><label>Zone</label><select id="zone">
+                            <option value="">ทั้งหมด</option>
+                        </select></div>
+                    <div class="field"><label>สถานะ</label><select id="state">
+                            <option value="">ทั้งหมด</option>
+                            <option value="available">ว่าง</option>
+                            <option value="assigned">มีผู้ใช้งาน</option>
+                        </select></div>
+                </section>
+                <div id="message" class="msg"></div>
+                <section id="seatingWorkspace" class="workspace">
+                    <aside class="card" id="guestPanel">
+                        <div class="head">
+                            <h3>แขกที่ยังไม่มีที่นั่ง</h3>
+                            <p>Admin และ Editor เท่านั้น</p>
+                        </div>
+                        <div class="body">
+                            <div id="selected" class="selected empty">ยังไม่ได้เลือกแขก</div><input id="search"
+                                class="search" placeholder="ค้นหาชื่อ หน่วยงาน Unique Key">
+                            <div id="guestList" class="guest-list"></div>
+                        </div>
+                    </aside>
+                    <section class="card">
+                        <div class="head">
+                            <h3>ผังตาม Configuration</h3>
+                            <p id="instruction">เลือกแขก แล้วคลิกที่นั่งว่าง</p>
+                        </div>
+                        <div class="body">
+                            <div id="map">
+                                <div style="padding:40px;text-align:center">กำลังโหลด...</div>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div class="modal" id="modal">
+        <div class="dialog">
+            <h3 id="modalTitle">รายละเอียด</h3>
+            <div id="detail" class="detail"></div>
+            <div class="modal-actions">
+                <button id="moveSeatBtn" class="primary" type="button" hidden>ย้ายที่นั่ง</button>
+                <button id="removeSeatBtn" class="danger" type="button" hidden>นำออกจากที่นั่ง</button>
+                <button id="close" type="button">ปิด</button>
+            </div>
+        </div>
+    </div>
+    <script type="module">
+        import {firebaseConfig, firebaseCollections, isFirebaseConfigReady} from './firebase-config.js'; import {renderNavigation} from './navigation.js'; import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js'; import {getAuth, onAuthStateChanged, signOut} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js'; import {getFirestore, collection, getDocs, doc, getDoc, runTransaction, serverTimestamp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js'; const $ = x => document.getElementById(x); let auth, db, user, role, config, seats = [], guests = [], blueprint = [], selectedId = null, moveFromSeatId = null, currentModalSeatId = null; const roles = ['admin', 'editor', 'viewer']; $('zone').onchange = renderMap; $('state').onchange = renderMap; $('search').oninput = renderGuests; $('close').onclick = () => $('modal').classList.remove('show'); $('moveSeatBtn').onclick = startMove; $('removeSeatBtn').onclick = removeAssignment; if (!isFirebaseConfigReady()) show('Firebase config ไม่พร้อม', 'bad'); else {const app = initializeApp(firebaseConfig); auth = getAuth(app); db = getFirestore(app); onAuthStateChanged(auth, async u => {if (!u) return location.replace('index.html'); user = u; const t = await u.getIdTokenResult(true); role = String(t.claims.role || '').toLowerCase(); if (!roles.includes(role)) {await signOut(auth); return location.replace('index.html?error=unauthorized')} renderNavigation({activePage: 'seating', user: u, role}); load()})} async function load() {try {const [c, s, g] = await Promise.all([getDoc(doc(db, firebaseCollections.seatingConfigs, 'current')), getDocs(collection(db, firebaseCollections.seats)), getDocs(collection(db, firebaseCollections.guests))]); if (!c.exists()) throw Error('ไม่พบ seatingConfigs/current'); config = c.data(); blueprint = build(config.zones || []); const ids = new Set(blueprint.map(x => x.seatId)); seats = s.docs.map(d => ({id: d.id, ...d.data()})).filter(x => ids.has(x.id)); guests = g.docs.map(d => ({id: d.id, ...d.data()})); $('zone').innerHTML = '<option value="">ทั้งหมด</option>' + config.zones.map(z => `<option value="${z.zoneCode}">${z.zoneName}</option>`).join(''); const editable = canEdit();const workspace = $("seatingWorkspace");
 
-<section class="card session-card"><div class="card-body session-row"><div><strong id="sessionEmail">กำลังตรวจสอบ Session...</strong><div class="role-badge" id="roleBadge">CHECKING</div></div><div class="btns"><button id="reloadBtn" class="btn" disabled>Reload Data</button><button id="signOutBtn" class="btn">Sign out</button></div></div><div id="loginAlert" class="alert"></div></section>
-<section class="kpis">
-<div class="kpi"><span>แขกทั้งหมด</span><strong id="kTotal">0</strong></div>
-<div class="kpi green"><span>ลงทะเบียนแล้ว</span><strong id="kRegistered">0</strong></div>
-<div class="kpi blue"><span>ยืนยันเข้าร่วม</span><strong id="kAttend">0</strong></div>
-<div class="kpi amber"><span>ไม่เข้าร่วม</span><strong id="kDecline">0</strong></div>
-<div class="kpi"><span>Mapping</span><strong id="kMapped">0</strong></div>
-<div class="kpi green"><span>Checked-in</span><strong id="kChecked">0</strong></div>
-</section>
+$("guestPanel").hidden = !editable;
 
-<section class="card"><div class="card-head"><div><h3>ค้นหาและตัวกรอง</h3><p>กรองข้อมูลใน Browser จากรายการที่อ่านจาก Collection guests</p></div><div class="btns"><button id="clearBtn" class="btn">ล้างตัวกรอง</button><button id="exportBtn" class="btn" disabled>Export CSV</button></div></div><div class="card-body">
-<div class="filters">
-<div class="field searchbox"><label>คำค้นหา</label><b>⌕</b><input id="search" placeholder="ชื่อ, หน่วยงาน, Unique Key, อีเมล, เบอร์โทร"></div>
-<div class="field"><label>กลุ่ม Stakeholder</label><select id="stakeholder"><option value="">ทั้งหมด</option></select></div>
-<div class="field"><label>กลุ่มสายงาน</label><select id="group"><option value="">ทั้งหมด</option></select></div>
-<div class="field"><label>สายงาน</label><select id="workLine"><option value="">ทั้งหมด</option></select></div>
-<div class="field"><label>สถานะลงทะเบียน</label><select id="registration"><option value="">ทั้งหมด</option><option>ลงทะเบียนแล้ว</option><option>ยังไม่ลงทะเบียน</option></select></div>
-<div class="field"><label>การตอบกลับ</label><select id="attendance"><option value="">ทั้งหมด</option><option>เข้าร่วม</option><option>ไม่เข้าร่วม</option></select></div>
-<div class="field"><label>Mapping</label><select id="mapping"><option value="">ทั้งหมด</option><option>Mapping</option><option>Not Mapping</option></select></div>
-</div>
-<div class="filter-actions"><div class="result-text" id="resultText">ยังไม่มีข้อมูล</div><div class="field"><label>รายการต่อหน้า</label><select id="pageSize"><option>10</option><option selected>20</option><option>50</option></select></div></div>
-</div></section>
+$("seatingWorkspace").classList.toggle(
+  "viewer-mode",
+  !editable
+);
 
-<section class="card"><div class="card-head"><div><h3>ข้อมูลรายชื่อแขก</h3><p>คลิก “ดู” เพื่อเปิดรายละเอียดทั้งหมด</p></div></div>
-<div id="loading" class="loading">กำลังอ่านข้อมูลจาก Firestore...</div>
-<div class="table-wrap"><table><thead><tr><th>ลำดับ</th><th>Unique Key</th><th>ชื่อ-สกุล</th><th>หน่วยงาน</th><th>Stakeholder</th><th>กลุ่มสายงาน</th><th>สายงาน</th><th>สถานะลงทะเบียน</th><th>การตอบกลับ</th><th>Mapping</th><th>อาหาร</th><th>Check-in</th><th>จัดการ</th></tr></thead><tbody id="tbody"><tr><td colspan="13" class="empty">กรุณาเชื่อม Firebase และลงชื่อเข้าใช้</td></tr></tbody></table></div>
-<div class="pagination"><div class="result-text" id="rangeText">0 รายการ</div><div class="pages" id="pages"></div></div>
-</section>
-<p class="footer-note">เวอร์ชัน POC อ่านข้อมูลจาก Collection <strong>guests</strong> หลัง Sign in เท่านั้น การค้นหาและกรองทำใน Browser เหมาะกับข้อมูลระดับหลักร้อย สำหรับ Production หรือข้อมูลจำนวนมากควรเปลี่ยนเป็น Firestore server-side pagination และกำหนด Composite Index ตาม Query ที่ใช้งานจริง</p>
-</div></main></div>
+$("instruction").textContent = editable
+  ? "เลือกแขก แล้วคลิกที่นั่งว่าง"
+  : "โหมดดูอย่างเดียว · คลิกที่นั่งเพื่อดูรายละเอียด"; renderGuests(); renderAll(); $('status').textContent = `พร้อมใช้งาน · Config v${config.version}`; $('loaded').textContent = new Date().toLocaleString('th-TH')} catch (e) {show(e.message, 'bad')} } function canEdit() {return role === 'admin' || role === 'editor'} function build(zones) {const a = []; for (const z of zones) for (let r = z.startRow; r < z.startRow + z.rowCount; r++)if (z.layoutType === 'blocks') for (const b of z.blocks) for (let n = 1; n <= z.seatsPerBlock; n++)a.push({seatId: `${z.zoneCode}-R${pad(r)}-${b}${pad(n)}`, zoneCode: z.zoneCode, zoneName: z.zoneName, rowNumber: r, seatLabel: `${b}${pad(n)}`, blockCode: b}); else for (const side of ['left', 'right']) for (let n = 1; n <= (side === 'left' ? z.leftSeats : z.rightSeats); n++) {const c = side === 'left' ? 'L' : 'R'; a.push({seatId: `${z.zoneCode}-R${pad(r)}-${c}${pad(n)}`, zoneCode: z.zoneCode, zoneName: z.zoneName, rowNumber: r, seatLabel: `${c}${pad(n)}`, side})} return a} function renderAll() {const a = seats.filter(x => state(x) === 'available').length, d = seats.filter(x => state(x) === 'assigned').length; $('expected').textContent = blueprint.length; $('total').textContent = seats.length; $('available').textContent = a; $('assigned').textContent = d; $('rate').textContent = (seats.length ? Math.round(d / seats.length * 100) : 0) + '%'; renderMap()} function renderGuests() {if (!canEdit()) return; const q = $('search').value.toLowerCase(), a = guests.filter(g => !g.seatId && g.seatingStatus !== 'assigned').filter(g => !q || [g.fullName, g.organizationName, g.uniqueKey].join(' ').toLowerCase().includes(q)); $('guestList').innerHTML = a.length ? a.map(g => `<button class="guest ${g.id === selectedId ? 'active' : ''}" data-g="${g.id}"><strong>${text(g.fullName || g.id)}</strong><span>${text(g.organizationName || '-')} · ${text(g.uniqueKey || '-')}</span></button>`).join('') : '<p>ไม่พบรายชื่อ</p>'; $('guestList').querySelectorAll('[data-g]').forEach(b => b.onclick = () => selectGuest(b.dataset.g))} function selectGuest(id) {
+            selectedId = id;
+            moveFromSeatId = null;
+            const guest = guests.find(item => item.id === id);
+            showSelectedGuest(guest, 'จัดที่นั่งใหม่');
+            renderGuests();
+        }
+        function showSelectedGuest(guest, modeText) {
+            $('selected').className = 'selected';
+            $('selected').innerHTML = `<strong>${text(guest.fullName || guest.id)}</strong><br>${text(guest.organizationName || '-')}<br>${text(modeText)}<br><button id="clearGuest">ยกเลิกการเลือก</button>`;
+            $('clearGuest').onclick = clearSelection;
+        }
+        function clearSelection() {
+            selectedId = null;
+            moveFromSeatId = null;
+            $('selected').className = 'selected empty';
+            $('selected').textContent = 'ยังไม่ได้เลือกแขก';
+            renderGuests();
+        }
+        function renderMap() {const zf = $('zone').value, sf = $('state').value, sm = new Map(seats.map(x => [x.id, x])); let h = '<div class="stage">STAGE</div>'; for (const z of config.zones) {if (zf && zf !== z.zoneCode) continue; h += `<section class="zone"><div class="zone-title">${text(z.zoneName)} · ${text(z.zoneCode)}</div>`; for (let r = z.startRow; r < z.startRow + z.rowCount; r++) {h += `<div class="row"><span class="row-label">แถว ${pad(r)}</span><div class="groups">${z.layoutType === 'blocks' ? z.blocks.map((b, i) => `${i ? '<span class="aisle">|</span>' : ''}<div class="group">${Array.from({length: z.seatsPerBlock}, (_, j) => seatButton(sm.get(`${z.zoneCode}-R${pad(r)}-${b}${pad(j + 1)}`), `${z.zoneCode}-R${pad(r)}-${b}${pad(j + 1)}`, `${b}${pad(j + 1)}`, sf)).join('')}</div>`).join('') : `<div class="group">${Array.from({length: z.leftSeats}, (_, j) => seatButton(sm.get(`${z.zoneCode}-R${pad(r)}-L${pad(j + 1)}`), `${z.zoneCode}-R${pad(r)}-L${pad(j + 1)}`, `L${pad(j + 1)}`, sf)).join('')}</div><span class="aisle">ทางเดิน</span><div class="group">${Array.from({length: z.rightSeats}, (_, j) => seatButton(sm.get(`${z.zoneCode}-R${pad(r)}-R${pad(j + 1)}`), `${z.zoneCode}-R${pad(r)}-R${pad(j + 1)}`, `R${pad(j + 1)}`, sf)).join('')}</div>`}</div></div>`} h += '</section>'} $('map').innerHTML = h; $('map').querySelectorAll('[data-s]').forEach(b => b.onclick = () => clickSeat(b.dataset.s))} function seatButton(s, id, label, f) {if (!s) return `<button class="seat inactive" disabled>${label}</button>`; const st = state(s); return `<button class="seat ${st}" data-s="${id}" style="${f && f !== st ? 'visibility:hidden' : ''}">${label}</button>`} function clickSeat(id) {const seat = seats.find(item => item.id === id); if (canEdit() && selectedId && state(seat) === 'available') {if (moveFromSeatId) moveAssignment(selectedId, moveFromSeatId, id); else assign(selectedId, id)} else detailSeat(seat)} async function assign(gid, sid) {const g = guests.find(x => x.id === gid), s = seats.find(x => x.id === sid); if (!confirm(`จัด ${g.fullName || gid} ลง ${s.displayLabel || sid} ใช่หรือไม่`)) return; try {const gr = doc(db, firebaseCollections.guests, gid), sr = doc(db, firebaseCollections.seats, sid); await runTransaction(db, async tx => {const [gs, ss] = await Promise.all([tx.get(gr), tx.get(sr)]); if (gs.data().seatId) throw Error('แขกมีที่นั่งแล้ว'); if (ss.data().guestId) throw Error('ที่นั่งถูกใช้แล้ว'); tx.update(sr, {guestId: gid, guestName: gs.data().fullName || gid, status: 'assigned', assignedAt: serverTimestamp(), assignedBy: user.uid, updatedAt: serverTimestamp(), updatedBy: user.uid}); tx.update(gr, {seatId: sid, seatZone: ss.data().zoneCode, seatRow: ss.data().rowNumber, seatLabel: ss.data().seatLabel, seatingStatus: 'assigned', seatAssignedAt: serverTimestamp(), seatAssignedBy: user.uid, updatedAt: serverTimestamp(), updatedBy: user.uid})}); s.guestId = gid; s.guestName = g.fullName || gid; s.status = 'assigned'; g.seatId = sid; g.seatingStatus = 'assigned'; clearSelection(); renderAll(); show('จัดที่นั่งสำเร็จ', 'good')} catch (e) {show(e.message, 'bad')} } function detailSeat(seat) {
+            currentModalSeatId = seat.id;
+            $('modalTitle').textContent = seat.displayLabel || seat.id;
+            $('detail').innerHTML = [
+                ['Seat ID', seat.id],
+                ['Zone', seat.zoneName],
+                ['แถว', seat.rowLabel],
+                ['ที่นั่ง', seat.seatLabel],
+                ['สถานะ', state(seat)],
+                ['แขก', seat.guestName || '-']
+            ].map(item => `<div><b>${item[0]}</b><br>${text(item[1])}</div>`).join('');
+            const manageable = canEdit() && state(seat) === 'assigned' && Boolean(seat.guestId);
+            $('moveSeatBtn').hidden = !manageable;
+            $('removeSeatBtn').hidden = !manageable;
+            $('modal').classList.add('show');
+        }
+        function startMove() {
+            const seat = seats.find(item => item.id === currentModalSeatId);
+            if (!seat || !seat.guestId) return;
+            const guest = guests.find(item => item.id === seat.guestId);
+            if (!guest) return;
+            selectedId = guest.id;
+            moveFromSeatId = seat.id;
+            $('modal').classList.remove('show');
+            showSelectedGuest(guest, `ย้ายจาก ${seat.displayLabel || seat.id} ไปยังที่นั่งว่าง`);
+            renderGuests();
+            show('เลือกที่นั่งว่างปลายทางเพื่อย้าย', 'good');
+        }
+        async function moveAssignment(guestId, oldSeatId, newSeatId) {
+            const guest = guests.find(item => item.id === guestId);
+            const oldSeat = seats.find(item => item.id === oldSeatId);
+            const newSeat = seats.find(item => item.id === newSeatId);
+            if (!guest || !oldSeat || !newSeat) return;
+            if (!confirm(`ย้าย ${guest.fullName || guestId}
+จาก ${oldSeat.displayLabel || oldSeatId}
+ไป ${newSeat.displayLabel || newSeatId} ใช่หรือไม่`)) return;
+            try {
+                const guestRef = doc(db, firebaseCollections.guests, guestId);
+                const oldRef = doc(db, firebaseCollections.seats, oldSeatId);
+                const newRef = doc(db, firebaseCollections.seats, newSeatId);
+                await runTransaction(db, async transaction => {
+                    const [guestSnap, oldSnap, newSnap] = await Promise.all([
+                        transaction.get(guestRef), transaction.get(oldRef), transaction.get(newRef)
+                    ]);
+                    if (!guestSnap.exists() || !oldSnap.exists() || !newSnap.exists()) throw Error('ไม่พบข้อมูลที่ต้องการย้าย');
+                    if (guestSnap.data().seatId !== oldSeatId || oldSnap.data().guestId !== guestId) throw Error('ข้อมูลที่นั่งเดิมเปลี่ยนแปลง กรุณา Reload');
+                    if (newSnap.data().guestId || newSnap.data().status === 'assigned') throw Error('ที่นั่งปลายทางถูกใช้แล้ว');
+                    transaction.update(oldRef, {guestId:null,guestName:null,status:'available',assignedAt:null,assignedBy:null,updatedAt:serverTimestamp(),updatedBy:user.uid,updatedByEmail:user.email||null});
+                    transaction.update(newRef, {guestId,guestName:guestSnap.data().fullName||guestId,status:'assigned',assignedAt:serverTimestamp(),assignedBy:user.uid,updatedAt:serverTimestamp(),updatedBy:user.uid,updatedByEmail:user.email||null});
+                    transaction.update(guestRef, {seatId:newSeatId,seatZone:newSnap.data().zoneCode,seatRow:newSnap.data().rowNumber,seatLabel:newSnap.data().seatLabel,seatingStatus:'assigned',seatAssignedAt:serverTimestamp(),seatAssignedBy:user.uid,updatedAt:serverTimestamp(),updatedBy:user.uid,updatedByEmail:user.email||null});
+                });
+                Object.assign(oldSeat,{guestId:null,guestName:null,status:'available'});
+                Object.assign(newSeat,{guestId,guestName:guest.fullName||guestId,status:'assigned'});
+                Object.assign(guest,{seatId:newSeatId,seatingStatus:'assigned'});
+                clearSelection(); renderAll(); show('ย้ายที่นั่งสำเร็จ','good');
+            } catch (error) { show(error.message,'bad'); }
+        }
+        async function removeAssignment() {
+            const seat = seats.find(item => item.id === currentModalSeatId);
+            if (!seat || !seat.guestId) return;
+            const guestId = seat.guestId;
+            const guest = guests.find(item => item.id === guestId);
+            if (!confirm(`นำ ${seat.guestName || guestId} ออกจาก ${seat.displayLabel || seat.id} ใช่หรือไม่`)) return;
+            try {
+                const seatRef = doc(db, firebaseCollections.seats, seat.id);
+                const guestRef = doc(db, firebaseCollections.guests, guestId);
+                await runTransaction(db, async transaction => {
+                    const [seatSnap, guestSnap] = await Promise.all([transaction.get(seatRef),transaction.get(guestRef)]);
+                    if (!seatSnap.exists() || !guestSnap.exists()) throw Error('ไม่พบข้อมูล Guest หรือ Seat');
+                    if (seatSnap.data().guestId !== guestId || guestSnap.data().seatId !== seat.id) throw Error('ข้อมูลเปลี่ยนแปลง กรุณา Reload');
+                    transaction.update(seatRef,{guestId:null,guestName:null,status:'available',assignedAt:null,assignedBy:null,updatedAt:serverTimestamp(),updatedBy:user.uid,updatedByEmail:user.email||null});
+                    transaction.update(guestRef,{seatId:null,seatZone:null,seatRow:null,seatLabel:null,seatingStatus:'unassigned',seatAssignedAt:null,seatAssignedBy:null,updatedAt:serverTimestamp(),updatedBy:user.uid,updatedByEmail:user.email||null});
+                });
+                Object.assign(seat,{guestId:null,guestName:null,status:'available'});
+                if (guest) Object.assign(guest,{seatId:null,seatingStatus:'unassigned'});
+                $('modal').classList.remove('show'); renderGuests(); renderAll(); show('นำแขกออกจากที่นั่งสำเร็จ','good');
+            } catch (error) { show(error.message,'bad'); }
+        }
+        function state(s) {return s.active === false || s.status === 'inactive' ? 'inactive' : s.guestId || s.status === 'assigned' ? 'assigned' : 'available'} function pad(v) {return String(v).padStart(2, '0')} function show(t, c) {$('message').textContent = t; $('message').className = 'msg show ' + c} function text(v) {return String(v ?? '').replace(/[&<>'"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[c]))}
+    </script>
+</body>
 
-<div class="modal" id="modal"><div class="dialog"><div class="dialog-head"><div><h3 id="detailName">รายละเอียดแขก</h3><div class="sub" id="detailId"></div></div><button class="close" id="closeModal">×</button></div><div class="detail-body"><div class="detail-grid" id="detailGrid"></div></div></div></div>
-
-<script type="module">
-import {firebaseConfig,firebaseCollections,isFirebaseConfigReady} from './firebase-config.js';
-import {renderNavigation} from './navigation.js';
-import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
-import {getAuth,onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
-import {getFirestore,collection,getDocs,query,orderBy,doc,updateDoc,serverTimestamp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
-const $=id=>document.getElementById(id);let app=null,auth=null,db=null,user=null,currentRole=null,all=[],filtered=[],page=1,authResolved=false,checkedFilter=false,unansweredFilter=false;
-const ALLOWED_ROLES=['admin','editor','viewer'];
-const filterIds=['search','stakeholder','group','workLine','registration','attendance','mapping','pageSize'];
-$('signOutBtn').onclick=logout;$('reloadBtn').onclick=()=>user&&loadGuests();$('clearBtn').onclick=clearFilters;$('exportBtn').onclick=exportCsv;$('closeModal').onclick=closeModal;$('modal').onclick=e=>{if(e.target===$('modal'))closeModal()};filterIds.forEach(id=>$(id).addEventListener(id==='search'?'input':'change',()=>{page=1;applyFilters()}));
-if(!isFirebaseConfigReady(firebaseConfig)){showAlert('Firebase Configuration ยังไม่พร้อม กรุณาตรวจสอบ firebase-config.js','bad');$('systemStatus').querySelector('span').textContent='Configuration ไม่พร้อม'}else{app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);onAuthStateChanged(auth,async currentUser=>{if(authResolved)return;authResolved=true;if(!currentUser){location.replace('index.html');return}user=currentUser;try{const token=await user.getIdTokenResult(true);currentRole=String(token.claims.role||'').toLowerCase();if(!ALLOWED_ROLES.includes(currentRole)){await signOut(auth);location.replace('index.html?error=unauthorized');return}renderNavigation({activePage:'guests',user,role:currentRole});$('sessionEmail').textContent=user.email||user.uid;$('roleBadge').textContent=currentRole;$('reloadBtn').disabled=false;$('systemStatus').classList.add('online');$('systemStatus').querySelector('span').textContent='Firestore พร้อมใช้งาน';showAlert('เข้าสู่ระบบด้วยสิทธิ์ '+currentRole,'good');await loadGuests()}catch(e){showAlert((e.code||'role-error')+': '+e.message,'bad')}})}
-async function logout(){try{if(auth)await signOut(auth)}finally{location.replace('index.html')}}
-async function loadGuests(){$('loading').classList.add('show');$('tbody').innerHTML='';try{let snap;try{snap=await getDocs(query(collection(db,firebaseCollections.guests),orderBy('sequence','asc')))}catch{snap=await getDocs(collection(db,firebaseCollections.guests))}all=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.sequence||999999)-(b.sequence||999999));buildOptions();applyUrlFilters();applyFilters();$('exportBtn').disabled=!all.length;$('lastLoaded').textContent='โหลดล่าสุด '+new Date().toLocaleString('th-TH');showAlert('โหลดข้อมูลสำเร็จ '+all.length+' รายการ','good')}catch(e){showAlert((e.code||'error')+': '+e.message,'bad');all=[];applyFilters()}finally{$('loading').classList.remove('show')}}
-function buildOptions(){fillSelect('stakeholder',unique('stakeholderGroup'));fillSelect('group',unique('groupName'));fillSelect('workLine',unique('workLine'))}function unique(k){return [...new Set(all.map(x=>x[k]).filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),'th'))}function fillSelect(id,arr){const old=$(id).value;$(id).innerHTML='<option value="">ทั้งหมด</option>'+arr.map(v=>`<option>${esc(v)}</option>`).join('');$(id).value=arr.includes(old)?old:''}
-function applyUrlFilters(){const p=new URLSearchParams(location.search);const r=p.get('registration'),a=p.get('attendance'),m=p.get('mapping');if(r)$('registration').value=r;if(a&&a!=='unanswered')$('attendance').value=a;if(m)$('mapping').value=m;checkedFilter=p.get('checked')==='1';unansweredFilter=a==='unanswered'}
-function applyFilters(){const s=$('search').value.trim().toLowerCase();filtered=all.filter(r=>(!s||[r.fullName,r.firstName,r.lastName,r.organizationName,r.uniqueKey,r.guestEmail,r.guestPhone,r.coordinatorName].join(' ').toLowerCase().includes(s))&&(!$('stakeholder').value||r.stakeholderGroup===$('stakeholder').value)&&(!$('group').value||r.groupName===$('group').value)&&(!$('workLine').value||r.workLine===$('workLine').value)&&(!$('registration').value||r.registrationStatus===$('registration').value)&&(!$('attendance').value||r.attendanceStatus===$('attendance').value)&&(!$('mapping').value||r.mappingStatus===$('mapping').value)&&(!checkedFilter||Boolean(r.checkedInAt))&&(!unansweredFilter||!r.attendanceStatus));const ps=+$('pageSize').value,totalPages=Math.max(1,Math.ceil(filtered.length/ps));if(page>totalPages)page=totalPages;renderKpis();renderTable()}
-function renderKpis(){const src=all;$('kTotal').textContent=src.length;$('kRegistered').textContent=src.filter(x=>x.registrationStatus==='ลงทะเบียนแล้ว').length;$('kAttend').textContent=src.filter(x=>x.attendanceStatus==='เข้าร่วม').length;$('kDecline').textContent=src.filter(x=>x.attendanceStatus==='ไม่เข้าร่วม').length;$('kMapped').textContent=src.filter(x=>x.mappingStatus==='Mapping').length;$('kChecked').textContent=src.filter(x=>x.checkedInAt).length}
-function renderTable(){const ps=+$('pageSize').value,start=(page-1)*ps,rows=filtered.slice(start,start+ps),canEdit=['admin','editor'].includes(currentRole);$('resultText').textContent=`พบ ${filtered.length} จาก ${all.length} รายการ`;$('rangeText').textContent=filtered.length?`แสดง ${start+1}-${Math.min(start+ps,filtered.length)} จาก ${filtered.length}`:'0 รายการ';$('tbody').innerHTML=rows.length?rows.map(r=>{let a=`<button class="linkbtn view" data-id="${r.id}">ดู</button>`;if(canEdit)a+=`<button class="linkbtn edit" data-edit="${r.id}">แก้ไข</button><button class="linkbtn checkin" data-check="${r.id}">${r.checkedInAt?'ยกเลิก Check-in':'Check-in'}</button>`;return `<tr><td>${r.sequence??'-'}</td><td>${esc(r.uniqueKey||'-')}</td><td><div class="name">${esc(r.fullName||'-')}</div><div class="sub">${esc(r.position||'-')}</div></td><td>${esc(r.organizationName||'-')}</td><td>${esc(r.stakeholderGroup||'-')}</td><td>${esc(r.groupName||'-')}</td><td>${esc(r.workLine||'-')}</td><td>${tag(r.registrationStatus)}</td><td>${tag(r.attendanceStatus)}</td><td>${tag(r.mappingStatus)}</td><td>${esc(r.mealType||'-')}</td><td>${r.checkedInAt?'<span class="tag green">Checked-in</span>':'<span class="tag gray">-</span>'}</td><td><div class="action-buttons">${a}</div></td></tr>`}).join(''):`<tr><td colspan="13" class="empty">ไม่พบข้อมูลตามเงื่อนไข</td></tr>`;document.querySelectorAll('[data-id]').forEach(b=>b.onclick=()=>openDetail(b.dataset.id));document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>quickEdit(b.dataset.edit));document.querySelectorAll('[data-check]').forEach(b=>b.onclick=()=>toggleCheckIn(b.dataset.check));renderPages()}
-function renderPages(){const ps=+$('pageSize').value,n=Math.max(1,Math.ceil(filtered.length/ps)),container=$('pages');let buttons=[];const add=(p,label=p)=>buttons.push(`<button class="page ${p===page?'active':''}" data-page="${p}" ${p<1||p>n?'disabled':''}>${label}</button>`);add(page-1,'‹');let from=Math.max(1,page-2),to=Math.min(n,from+4);from=Math.max(1,to-4);for(let i=from;i<=to;i++)add(i);add(page+1,'›');container.innerHTML=buttons.join('');container.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>{page=+b.dataset.page;renderTable()})}
-function clearFilters(){['search','stakeholder','group','workLine','registration','attendance','mapping'].forEach(id=>$(id).value='');checkedFilter=false;unansweredFilter=false;page=1;history.replaceState({},'', 'guests.html');applyFilters()}
-function tag(v){if(!v)return'<span class="tag gray">-</span>';let c=v==='ลงทะเบียนแล้ว'||v==='เข้าร่วม'||v==='Mapping'?'green':v==='ไม่เข้าร่วม'?'red':v==='Not Mapping'?'amber':'gray';return`<span class="tag ${c}">${esc(v)}</span>`}
-function openDetail(id){const r=all.find(x=>x.id===id);if(!r)return;$('detailName').textContent=r.fullName||'รายละเอียดแขก';$('detailId').textContent=`Document ID: ${r.id} · Source Row ID: ${r.sourceRowId||'-'}`;const fields=[['Unique Key',r.uniqueKey],['กลุ่มสายงาน',r.groupName],['สายงานที่เชิญ',r.workLine],['Stakeholder',r.stakeholderGroup],['กลุ่มหน่วยงาน',r.organizationGroup],['ประเภทหน่วยงาน',r.organizationType],['ชื่อหน่วยงาน',r.organizationName],['ตำแหน่ง',r.position],['สถานะลงทะเบียน',r.registrationStatus],['การตอบกลับ',r.attendanceStatus],['Mapping',r.mappingStatus],['อาหาร',r.mealType],['แพ้อาหาร',r.allergy],['เบอร์โทรแขก',r.guestPhone],['อีเมลแขก',r.guestEmail],['ผู้ประสานงาน',r.coordinatorName],['เบอร์ผู้ประสานงาน',r.coordinatorPhone],['อีเมลผู้ประสานงาน',r.coordinatorEmail],['เป็นผู้แทน',r.isRepresentative?'ใช่':'ไม่ใช่'],['Pre-register',fmtDate(r.preRegisteredAt)],['Checked-in',fmtDate(r.checkedInAt)],['Import Batch',r.importBatchId],['หมายเหตุ',r.note,'wide']];$('detailGrid').innerHTML=fields.map(([k,v,w])=>`<div class="detail ${w||''}"><span>${esc(k)}</span><strong>${esc(v??'-')}</strong></div>`).join('');$('modal').classList.add('show')}
-async function quickEdit(id){if(!['admin','editor'].includes(currentRole))return;const r=all.find(x=>x.id===id);if(!r)return;const name=prompt('ชื่อ-สกุล',r.fullName||'');if(name===null)return;const note=prompt('หมายเหตุ',r.note||'');try{await updateDoc(doc(db,firebaseCollections.guests,id),{fullName:name.trim()||null,note:(note||'').trim()||null,updatedAt:serverTimestamp(),updatedBy:user.uid,updatedByEmail:user.email||null});r.fullName=name.trim()||null;r.note=(note||'').trim()||null;applyFilters();showAlert('บันทึกข้อมูลสำเร็จ','good')}catch(e){showAlert((e.code||'error')+': '+e.message,'bad')}}
-async function toggleCheckIn(id){if(!['admin','editor'].includes(currentRole))return;const r=all.find(x=>x.id===id);if(!r)return;const value=!r.checkedInAt;if(!confirm(`${value?'Check-in':'ยกเลิก Check-in'} ${r.fullName||id} ใช่หรือไม่`))return;try{await updateDoc(doc(db,firebaseCollections.guests,id),{checkedInAt:value?serverTimestamp():null,updatedAt:serverTimestamp(),updatedBy:user.uid,updatedByEmail:user.email||null});r.checkedInAt=value?new Date():null;applyFilters();showAlert('อัปเดต Check-in สำเร็จ','good')}catch(e){showAlert((e.code||'error')+': '+e.message,'bad')}}
-function closeModal(){$('modal').classList.remove('show')}
-function fmtDate(v){if(!v)return null;const d=v.toDate?v.toDate():new Date(v);return isNaN(d)?'-':d.toLocaleString('th-TH')}
-function exportCsv(){const cols=[['Document ID','id'],['ลำดับ','sequence'],['Unique Key','uniqueKey'],['ชื่อ-สกุล','fullName'],['ตำแหน่ง','position'],['ชื่อหน่วยงาน','organizationName'],['Stakeholder','stakeholderGroup'],['กลุ่มสายงาน','groupName'],['สายงาน','workLine'],['สถานะลงทะเบียน','registrationStatus'],['การตอบกลับ','attendanceStatus'],['Mapping','mappingStatus'],['อาหาร','mealType'],['แพ้อาหาร','allergy'],['เบอร์โทร','guestPhone'],['อีเมล','guestEmail'],['Pre-Register','preRegisteredAt'],['Checked-In','checkedInAt']];const rows=[cols.map(x=>x[0]),...filtered.map(r=>cols.map(([,k])=>['preRegisteredAt','checkedInAt'].includes(k)?fmtDate(r[k]):r[k]))];const csv='\ufeff'+rows.map(row=>row.map(csvCell).join(',')).join('\r\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='guests_export_'+new Date().toISOString().slice(0,10)+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-function csvCell(v){const s=String(v??'');return /[",\r\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s}function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}function showAlert(text,type=''){$('loginAlert').textContent=text;$('loginAlert').className='alert show '+type}
-
-
-</script>
-</body></html>
+</html>
