@@ -115,6 +115,22 @@
             margin-top: 7px
         }
 
+        .kpi.green strong {
+            color: var(--green)
+        }
+
+        .kpi.blue strong {
+            color: var(--p)
+        }
+
+        .kpi.amber strong {
+            color: var(--amber)
+        }
+
+        .kpi.red strong {
+            color: var(--red)
+        }
+
         .grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -330,13 +346,14 @@
                 <div id="alert" class="alert"></div>
                 <section class="kpis">
                     <div class="kpi" data-f="all"><span>แขกทั้งหมด</span><strong id="total">0</strong></div>
-                    <div class="kpi" data-f="registered"><span>ลงทะเบียนแล้ว</span><strong id="registered">0</strong>
-                    </div>
-                    <div class="kpi" data-f="unregistered"><span>ยังไม่ลงทะเบียน</span><strong
+                    <div class="kpi green" data-f="registered"><span>ลงทะเบียนแล้ว</span><strong
+                            id="registered">0</strong></div>
+                    <div class="kpi amber" data-f="unregistered"><span>ยังไม่ลงทะเบียน</span><strong
                             id="unregistered">0</strong></div>
-                    <div class="kpi" data-f="attend"><span>ยืนยันเข้าร่วม</span><strong id="attend">0</strong></div>
-                    <div class="kpi" data-f="mapped"><span>Mapping</span><strong id="mapped">0</strong></div>
-                    <div class="kpi" data-f="checked"><span>Checked-in</span><strong id="checked">0</strong></div>
+                    <div class="kpi blue" data-f="attend"><span>ยืนยันเข้าร่วม</span><strong id="attend">0</strong>
+                    </div>
+                    <div class="kpi blue" data-f="mapped"><span>Mapping</span><strong id="mapped">0</strong></div>
+                    <div class="kpi green" data-f="checked"><span>Checked-in</span><strong id="checked">0</strong></div>
                 </section>
                 <section class="grid">
                     <article class="card">
