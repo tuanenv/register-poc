@@ -400,6 +400,22 @@
             font-size: 11px
         }
 
+        @media(max-width:900px) {
+            .top{padding:14px 70px 14px 14px;align-items:center;gap:8px}.top h1{font-size:20px}.top #status{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px}
+            .content{padding:14px 12px 90px}.hero{padding:17px;flex-direction:column;gap:8px}.hero h2{font-size:20px}.hero #loaded{font-size:10px}
+            .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}.kpi{min-width:0;padding:11px}.kpi span{font-size:10px}.kpi strong{font-size:20px}
+            .controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:11px}.field select{width:100%;min-height:42px}
+            .workspace{grid-template-columns:1fr;gap:12px;margin-top:12px}.workspace.viewer-mode{grid-template-columns:1fr}
+            .guest-list{max-height:245px}.guest{min-height:50px;padding:10px}.search{min-height:44px}
+            .selected{position:sticky;top:0;z-index:4;min-height:46px;box-shadow:0 4px 12px rgba(16,24,40,.08)}.selected:not(.empty){border:1px solid #84caff}
+            .card>.body{padding:12px}.head{padding:13px 14px}.head h3{font-size:15px}
+            #map{overflow-x:auto;overflow-y:hidden;padding-bottom:10px;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+            .stage{width:fit-content;min-width:720px}.zone,.row{min-width:720px}.groups{gap:6px}.group{gap:5px;padding:5px}.seat{width:40px;height:40px;font-size:9px;touch-action:manipulation}.aisle{min-width:30px}.row-label{position:sticky;left:0;z-index:3;width:54px;min-width:54px;padding:8px 4px;background:#fff;border-radius:6px;text-align:center}
+            .modal{padding:10px}.dialog{width:100%;max-height:90dvh;overflow:auto;padding:15px}.detail{grid-template-columns:1fr 1fr}.modal-actions{position:sticky;bottom:0;padding-top:12px;background:#fff;display:grid;grid-template-columns:1fr 1fr}.modal-actions button{min-height:44px}.modal-actions #close{grid-column:1/-1}
+            .msg{position:sticky;top:8px;z-index:10;box-shadow:0 5px 18px rgba(16,24,40,.12)}
+        }
+        @media(max-width:520px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.controls{grid-template-columns:1fr}.detail{grid-template-columns:1fr}.stage,.zone,.row{min-width:680px}}
+
         @media(max-width:1200px) {
             .shell {
                 grid-template-columns: 1fr
@@ -420,7 +436,7 @@
 
         @media(max-width:700px) {
             .kpis {
-                grid-template-columns: 1fr
+                grid-template-columns: repeat(2,minmax(0,1fr))
             }
 
             .content {
@@ -440,7 +456,7 @@
             <div class="content">
                 <section class="hero">
                     <div>
-                        <h2>Dynamic Seating Plan</h2><span>เลือกแขก แล้วคลิกที่นั่งว่างเพื่อจัดที่นั่ง</span>
+                        <h2>Dynamic Seating Plan</h2><span>เลือกแขก แล้วแตะที่นั่งว่างเพื่อจัดที่นั่ง · ผังเลื่อนซ้าย-ขวาได้</span>
                     </div><span id="loaded">กำลังโหลด...</span>
                 </section>
                 <section class="kpis">
