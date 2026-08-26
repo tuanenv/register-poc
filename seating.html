@@ -364,6 +364,29 @@
             margin-top: 0
         }
 
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 14px;
+        }
+        .modal-actions button {
+            padding: 8px 11px;
+            border: 1px solid var(--bd);
+            border-radius: 8px;
+            background: #fff;
+            font-weight: 750;
+            cursor: pointer;
+        }
+        .modal-actions .primary {
+            border-color: var(--p);
+            background: var(--p);
+            color: #fff;
+        }
+        .modal-actions .danger {
+            border-color: #fda29b;
+            color: var(--bad);
+        }
         .detail {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -469,11 +492,15 @@
         <div class="dialog">
             <h3 id="modalTitle">รายละเอียด</h3>
             <div id="detail" class="detail"></div>
-            <p><button id="close">ปิด</button></p>
+            <div class="modal-actions">
+                <button id="moveSeatBtn" class="primary" type="button" hidden>ย้ายที่นั่ง</button>
+                <button id="removeSeatBtn" class="danger" type="button" hidden>นำออกจากที่นั่ง</button>
+                <button id="close" type="button">ปิด</button>
+            </div>
         </div>
     </div>
     <script type="module">
-        import {firebaseConfig, firebaseCollections, isFirebaseConfigReady} from './firebase-config.js'; import {renderNavigation} from './navigation.js'; import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js'; import {getAuth, onAuthStateChanged, signOut} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js'; import {getFirestore, collection, getDocs, doc, getDoc, runTransaction, serverTimestamp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js'; const $ = x => document.getElementById(x); let auth, db, user, role, config, seats = [], guests = [], blueprint = [], selectedId = null; const roles = ['admin', 'editor', 'viewer']; $('zone').onchange = renderMap; $('state').onchange = renderMap; $('search').oninput = renderGuests; $('close').onclick = () => $('modal').classList.remove('show'); if (!isFirebaseConfigReady()) show('Firebase config ไม่พร้อม', 'bad'); else {const app = initializeApp(firebaseConfig); auth = getAuth(app); db = getFirestore(app); onAuthStateChanged(auth, async u => {if (!u) return location.replace('index.html'); user = u; const t = await u.getIdTokenResult(true); role = String(t.claims.role || '').toLowerCase(); if (!roles.includes(role)) {await signOut(auth); return location.replace('index.html?error=unauthorized')} renderNavigation({activePage: 'seating', user: u, role}); load()})} async function load() {try {const [c, s, g] = await Promise.all([getDoc(doc(db, firebaseCollections.seatingConfigs, 'current')), getDocs(collection(db, firebaseCollections.seats)), getDocs(collection(db, firebaseCollections.guests))]); if (!c.exists()) throw Error('ไม่พบ seatingConfigs/current'); config = c.data(); blueprint = build(config.zones || []); const ids = new Set(blueprint.map(x => x.seatId)); seats = s.docs.map(d => ({id: d.id, ...d.data()})).filter(x => ids.has(x.id)); guests = g.docs.map(d => ({id: d.id, ...d.data()})); $('zone').innerHTML = '<option value="">ทั้งหมด</option>' + config.zones.map(z => `<option value="${z.zoneCode}">${z.zoneName}</option>`).join(''); const editable = canEdit();const workspace = $("seatingWorkspace");
+        import {firebaseConfig, firebaseCollections, isFirebaseConfigReady} from './firebase-config.js'; import {renderNavigation} from './navigation.js'; import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js'; import {getAuth, onAuthStateChanged, signOut} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js'; import {getFirestore, collection, getDocs, doc, getDoc, runTransaction, serverTimestamp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js'; const $ = x => document.getElementById(x); let auth, db, user, role, config, seats = [], guests = [], blueprint = [], selectedId = null, moveFromSeatId = null, currentModalSeatId = null; const roles = ['admin', 'editor', 'viewer']; $('zone').onchange = renderMap; $('state').onchange = renderMap; $('search').oninput = renderGuests; $('close').onclick = () => $('modal').classList.remove('show'); $('moveSeatBtn').onclick = startMove; $('removeSeatBtn').onclick = removeAssignment; if (!isFirebaseConfigReady()) show('Firebase config ไม่พร้อม', 'bad'); else {const app = initializeApp(firebaseConfig); auth = getAuth(app); db = getFirestore(app); onAuthStateChanged(auth, async u => {if (!u) return location.replace('index.html'); user = u; const t = await u.getIdTokenResult(true); role = String(t.claims.role || '').toLowerCase(); if (!roles.includes(role)) {await signOut(auth); return location.replace('index.html?error=unauthorized')} renderNavigation({activePage: 'seating', user: u, role}); load()})} async function load() {try {const [c, s, g] = await Promise.all([getDoc(doc(db, firebaseCollections.seatingConfigs, 'current')), getDocs(collection(db, firebaseCollections.seats)), getDocs(collection(db, firebaseCollections.guests))]); if (!c.exists()) throw Error('ไม่พบ seatingConfigs/current'); config = c.data(); blueprint = build(config.zones || []); const ids = new Set(blueprint.map(x => x.seatId)); seats = s.docs.map(d => ({id: d.id, ...d.data()})).filter(x => ids.has(x.id)); guests = g.docs.map(d => ({id: d.id, ...d.data()})); $('zone').innerHTML = '<option value="">ทั้งหมด</option>' + config.zones.map(z => `<option value="${z.zoneCode}">${z.zoneName}</option>`).join(''); const editable = canEdit();const workspace = $("seatingWorkspace");
 
 $("guestPanel").hidden = !editable;
 
@@ -484,7 +511,104 @@ $("seatingWorkspace").classList.toggle(
 
 $("instruction").textContent = editable
   ? "เลือกแขก แล้วคลิกที่นั่งว่าง"
-  : "โหมดดูอย่างเดียว · คลิกที่นั่งเพื่อดูรายละเอียด"; renderGuests(); renderAll(); $('status').textContent = `พร้อมใช้งาน · Config v${config.version}`; $('loaded').textContent = new Date().toLocaleString('th-TH')} catch (e) {show(e.message, 'bad')} } function canEdit() {return role === 'admin' || role === 'editor'} function build(zones) {const a = []; for (const z of zones) for (let r = z.startRow; r < z.startRow + z.rowCount; r++)if (z.layoutType === 'blocks') for (const b of z.blocks) for (let n = 1; n <= z.seatsPerBlock; n++)a.push({seatId: `${z.zoneCode}-R${pad(r)}-${b}${pad(n)}`, zoneCode: z.zoneCode, zoneName: z.zoneName, rowNumber: r, seatLabel: `${b}${pad(n)}`, blockCode: b}); else for (const side of ['left', 'right']) for (let n = 1; n <= (side === 'left' ? z.leftSeats : z.rightSeats); n++) {const c = side === 'left' ? 'L' : 'R'; a.push({seatId: `${z.zoneCode}-R${pad(r)}-${c}${pad(n)}`, zoneCode: z.zoneCode, zoneName: z.zoneName, rowNumber: r, seatLabel: `${c}${pad(n)}`, side})} return a} function renderAll() {const a = seats.filter(x => state(x) === 'available').length, d = seats.filter(x => state(x) === 'assigned').length; $('expected').textContent = blueprint.length; $('total').textContent = seats.length; $('available').textContent = a; $('assigned').textContent = d; $('rate').textContent = (seats.length ? Math.round(d / seats.length * 100) : 0) + '%'; renderMap()} function renderGuests() {if (!canEdit()) return; const q = $('search').value.toLowerCase(), a = guests.filter(g => !g.seatId && g.seatingStatus !== 'assigned').filter(g => !q || [g.fullName, g.organizationName, g.uniqueKey].join(' ').toLowerCase().includes(q)); $('guestList').innerHTML = a.length ? a.map(g => `<button class="guest ${g.id === selectedId ? 'active' : ''}" data-g="${g.id}"><strong>${text(g.fullName || g.id)}</strong><span>${text(g.organizationName || '-')} · ${text(g.uniqueKey || '-')}</span></button>`).join('') : '<p>ไม่พบรายชื่อ</p>'; $('guestList').querySelectorAll('[data-g]').forEach(b => b.onclick = () => selectGuest(b.dataset.g))} function selectGuest(id) {selectedId = id; const g = guests.find(x => x.id === id); $('selected').className = 'selected'; $('selected').innerHTML = `<strong>${text(g.fullName || g.id)}</strong><br>${text(g.organizationName || '-')}<br><button id="clearGuest">ยกเลิกการเลือก</button>`; $('clearGuest').onclick = () => {selectedId = null; $('selected').className = 'selected empty'; $('selected').textContent = 'ยังไม่ได้เลือกแขก'; renderGuests()}; renderGuests()} function renderMap() {const zf = $('zone').value, sf = $('state').value, sm = new Map(seats.map(x => [x.id, x])); let h = '<div class="stage">STAGE</div>'; for (const z of config.zones) {if (zf && zf !== z.zoneCode) continue; h += `<section class="zone"><div class="zone-title">${text(z.zoneName)} · ${text(z.zoneCode)}</div>`; for (let r = z.startRow; r < z.startRow + z.rowCount; r++) {h += `<div class="row"><span class="row-label">แถว ${pad(r)}</span><div class="groups">${z.layoutType === 'blocks' ? z.blocks.map((b, i) => `${i ? '<span class="aisle">|</span>' : ''}<div class="group">${Array.from({length: z.seatsPerBlock}, (_, j) => seatButton(sm.get(`${z.zoneCode}-R${pad(r)}-${b}${pad(j + 1)}`), `${z.zoneCode}-R${pad(r)}-${b}${pad(j + 1)}`, `${b}${pad(j + 1)}`, sf)).join('')}</div>`).join('') : `<div class="group">${Array.from({length: z.leftSeats}, (_, j) => seatButton(sm.get(`${z.zoneCode}-R${pad(r)}-L${pad(j + 1)}`), `${z.zoneCode}-R${pad(r)}-L${pad(j + 1)}`, `L${pad(j + 1)}`, sf)).join('')}</div><span class="aisle">ทางเดิน</span><div class="group">${Array.from({length: z.rightSeats}, (_, j) => seatButton(sm.get(`${z.zoneCode}-R${pad(r)}-R${pad(j + 1)}`), `${z.zoneCode}-R${pad(r)}-R${pad(j + 1)}`, `R${pad(j + 1)}`, sf)).join('')}</div>`}</div></div>`} h += '</section>'} $('map').innerHTML = h; $('map').querySelectorAll('[data-s]').forEach(b => b.onclick = () => clickSeat(b.dataset.s))} function seatButton(s, id, label, f) {if (!s) return `<button class="seat inactive" disabled>${label}</button>`; const st = state(s); return `<button class="seat ${st}" data-s="${id}" style="${f && f !== st ? 'visibility:hidden' : ''}">${label}</button>`} function clickSeat(id) {const s = seats.find(x => x.id === id); if (canEdit() && selectedId && state(s) === 'available') assign(selectedId, id); else detailSeat(s)} async function assign(gid, sid) {const g = guests.find(x => x.id === gid), s = seats.find(x => x.id === sid); if (!confirm(`จัด ${g.fullName || gid} ลง ${s.displayLabel || sid} ใช่หรือไม่`)) return; try {const gr = doc(db, firebaseCollections.guests, gid), sr = doc(db, firebaseCollections.seats, sid); await runTransaction(db, async tx => {const [gs, ss] = await Promise.all([tx.get(gr), tx.get(sr)]); if (gs.data().seatId) throw Error('แขกมีที่นั่งแล้ว'); if (ss.data().guestId) throw Error('ที่นั่งถูกใช้แล้ว'); tx.update(sr, {guestId: gid, guestName: gs.data().fullName || gid, status: 'assigned', assignedAt: serverTimestamp(), assignedBy: user.uid, updatedAt: serverTimestamp(), updatedBy: user.uid}); tx.update(gr, {seatId: sid, seatZone: ss.data().zoneCode, seatRow: ss.data().rowNumber, seatLabel: ss.data().seatLabel, seatingStatus: 'assigned', seatAssignedAt: serverTimestamp(), seatAssignedBy: user.uid, updatedAt: serverTimestamp(), updatedBy: user.uid})}); s.guestId = gid; s.guestName = g.fullName || gid; s.status = 'assigned'; g.seatId = sid; g.seatingStatus = 'assigned'; selectedId = null; $('selected').className = 'selected empty'; $('selected').textContent = 'ยังไม่ได้เลือกแขก'; renderGuests(); renderAll(); show('จัดที่นั่งสำเร็จ', 'good')} catch (e) {show(e.message, 'bad')} } function detailSeat(s) {$('modalTitle').textContent = s.displayLabel || s.id; $('detail').innerHTML = [['Seat ID', s.id], ['Zone', s.zoneName], ['แถว', s.rowLabel], ['ที่นั่ง', s.seatLabel], ['สถานะ', state(s)], ['แขก', s.guestName || '-']].map(x => `<div><b>${x[0]}</b><br>${text(x[1])}</div>`).join(''); $('modal').classList.add('show')} function state(s) {return s.active === false || s.status === 'inactive' ? 'inactive' : s.guestId || s.status === 'assigned' ? 'assigned' : 'available'} function pad(v) {return String(v).padStart(2, '0')} function show(t, c) {$('message').textContent = t; $('message').className = 'msg show ' + c} function text(v) {return String(v ?? '').replace(/[&<>'"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[c]))}
+  : "โหมดดูอย่างเดียว · คลิกที่นั่งเพื่อดูรายละเอียด"; renderGuests(); renderAll(); $('status').textContent = `พร้อมใช้งาน · Config v${config.version}`; $('loaded').textContent = new Date().toLocaleString('th-TH')} catch (e) {show(e.message, 'bad')} } function canEdit() {return role === 'admin' || role === 'editor'} function build(zones) {const a = []; for (const z of zones) for (let r = z.startRow; r < z.startRow + z.rowCount; r++)if (z.layoutType === 'blocks') for (const b of z.blocks) for (let n = 1; n <= z.seatsPerBlock; n++)a.push({seatId: `${z.zoneCode}-R${pad(r)}-${b}${pad(n)}`, zoneCode: z.zoneCode, zoneName: z.zoneName, rowNumber: r, seatLabel: `${b}${pad(n)}`, blockCode: b}); else for (const side of ['left', 'right']) for (let n = 1; n <= (side === 'left' ? z.leftSeats : z.rightSeats); n++) {const c = side === 'left' ? 'L' : 'R'; a.push({seatId: `${z.zoneCode}-R${pad(r)}-${c}${pad(n)}`, zoneCode: z.zoneCode, zoneName: z.zoneName, rowNumber: r, seatLabel: `${c}${pad(n)}`, side})} return a} function renderAll() {const a = seats.filter(x => state(x) === 'available').length, d = seats.filter(x => state(x) === 'assigned').length; $('expected').textContent = blueprint.length; $('total').textContent = seats.length; $('available').textContent = a; $('assigned').textContent = d; $('rate').textContent = (seats.length ? Math.round(d / seats.length * 100) : 0) + '%'; renderMap()} function renderGuests() {if (!canEdit()) return; const q = $('search').value.toLowerCase(), a = guests.filter(g => !g.seatId && g.seatingStatus !== 'assigned').filter(g => !q || [g.fullName, g.organizationName, g.uniqueKey].join(' ').toLowerCase().includes(q)); $('guestList').innerHTML = a.length ? a.map(g => `<button class="guest ${g.id === selectedId ? 'active' : ''}" data-g="${g.id}"><strong>${text(g.fullName || g.id)}</strong><span>${text(g.organizationName || '-')} · ${text(g.uniqueKey || '-')}</span></button>`).join('') : '<p>ไม่พบรายชื่อ</p>'; $('guestList').querySelectorAll('[data-g]').forEach(b => b.onclick = () => selectGuest(b.dataset.g))} function selectGuest(id) {
+            selectedId = id;
+            moveFromSeatId = null;
+            const guest = guests.find(item => item.id === id);
+            showSelectedGuest(guest, 'จัดที่นั่งใหม่');
+            renderGuests();
+        }
+        function showSelectedGuest(guest, modeText) {
+            $('selected').className = 'selected';
+            $('selected').innerHTML = `<strong>${text(guest.fullName || guest.id)}</strong><br>${text(guest.organizationName || '-')}<br>${text(modeText)}<br><button id="clearGuest">ยกเลิกการเลือก</button>`;
+            $('clearGuest').onclick = clearSelection;
+        }
+        function clearSelection() {
+            selectedId = null;
+            moveFromSeatId = null;
+            $('selected').className = 'selected empty';
+            $('selected').textContent = 'ยังไม่ได้เลือกแขก';
+            renderGuests();
+        }
+        function renderMap() {const zf = $('zone').value, sf = $('state').value, sm = new Map(seats.map(x => [x.id, x])); let h = '<div class="stage">STAGE</div>'; for (const z of config.zones) {if (zf && zf !== z.zoneCode) continue; h += `<section class="zone"><div class="zone-title">${text(z.zoneName)} · ${text(z.zoneCode)}</div>`; for (let r = z.startRow; r < z.startRow + z.rowCount; r++) {h += `<div class="row"><span class="row-label">แถว ${pad(r)}</span><div class="groups">${z.layoutType === 'blocks' ? z.blocks.map((b, i) => `${i ? '<span class="aisle">|</span>' : ''}<div class="group">${Array.from({length: z.seatsPerBlock}, (_, j) => seatButton(sm.get(`${z.zoneCode}-R${pad(r)}-${b}${pad(j + 1)}`), `${z.zoneCode}-R${pad(r)}-${b}${pad(j + 1)}`, `${b}${pad(j + 1)}`, sf)).join('')}</div>`).join('') : `<div class="group">${Array.from({length: z.leftSeats}, (_, j) => seatButton(sm.get(`${z.zoneCode}-R${pad(r)}-L${pad(j + 1)}`), `${z.zoneCode}-R${pad(r)}-L${pad(j + 1)}`, `L${pad(j + 1)}`, sf)).join('')}</div><span class="aisle">ทางเดิน</span><div class="group">${Array.from({length: z.rightSeats}, (_, j) => seatButton(sm.get(`${z.zoneCode}-R${pad(r)}-R${pad(j + 1)}`), `${z.zoneCode}-R${pad(r)}-R${pad(j + 1)}`, `R${pad(j + 1)}`, sf)).join('')}</div>`}</div></div>`} h += '</section>'} $('map').innerHTML = h; $('map').querySelectorAll('[data-s]').forEach(b => b.onclick = () => clickSeat(b.dataset.s))} function seatButton(s, id, label, f) {if (!s) return `<button class="seat inactive" disabled>${label}</button>`; const st = state(s); return `<button class="seat ${st}" data-s="${id}" style="${f && f !== st ? 'visibility:hidden' : ''}">${label}</button>`} function clickSeat(id) {const seat = seats.find(item => item.id === id); if (canEdit() && selectedId && state(seat) === 'available') {if (moveFromSeatId) moveAssignment(selectedId, moveFromSeatId, id); else assign(selectedId, id)} else detailSeat(seat)} async function assign(gid, sid) {const g = guests.find(x => x.id === gid), s = seats.find(x => x.id === sid); if (!confirm(`จัด ${g.fullName || gid} ลง ${s.displayLabel || sid} ใช่หรือไม่`)) return; try {const gr = doc(db, firebaseCollections.guests, gid), sr = doc(db, firebaseCollections.seats, sid); await runTransaction(db, async tx => {const [gs, ss] = await Promise.all([tx.get(gr), tx.get(sr)]); if (gs.data().seatId) throw Error('แขกมีที่นั่งแล้ว'); if (ss.data().guestId) throw Error('ที่นั่งถูกใช้แล้ว'); tx.update(sr, {guestId: gid, guestName: gs.data().fullName || gid, status: 'assigned', assignedAt: serverTimestamp(), assignedBy: user.uid, updatedAt: serverTimestamp(), updatedBy: user.uid}); tx.update(gr, {seatId: sid, seatZone: ss.data().zoneCode, seatRow: ss.data().rowNumber, seatLabel: ss.data().seatLabel, seatingStatus: 'assigned', seatAssignedAt: serverTimestamp(), seatAssignedBy: user.uid, updatedAt: serverTimestamp(), updatedBy: user.uid})}); s.guestId = gid; s.guestName = g.fullName || gid; s.status = 'assigned'; g.seatId = sid; g.seatingStatus = 'assigned'; clearSelection(); renderAll(); show('จัดที่นั่งสำเร็จ', 'good')} catch (e) {show(e.message, 'bad')} } function detailSeat(seat) {
+            currentModalSeatId = seat.id;
+            $('modalTitle').textContent = seat.displayLabel || seat.id;
+            $('detail').innerHTML = [
+                ['Seat ID', seat.id],
+                ['Zone', seat.zoneName],
+                ['แถว', seat.rowLabel],
+                ['ที่นั่ง', seat.seatLabel],
+                ['สถานะ', state(seat)],
+                ['แขก', seat.guestName || '-']
+            ].map(item => `<div><b>${item[0]}</b><br>${text(item[1])}</div>`).join('');
+            const manageable = canEdit() && state(seat) === 'assigned' && Boolean(seat.guestId);
+            $('moveSeatBtn').hidden = !manageable;
+            $('removeSeatBtn').hidden = !manageable;
+            $('modal').classList.add('show');
+        }
+        function startMove() {
+            const seat = seats.find(item => item.id === currentModalSeatId);
+            if (!seat || !seat.guestId) return;
+            const guest = guests.find(item => item.id === seat.guestId);
+            if (!guest) return;
+            selectedId = guest.id;
+            moveFromSeatId = seat.id;
+            $('modal').classList.remove('show');
+            showSelectedGuest(guest, `ย้ายจาก ${seat.displayLabel || seat.id} ไปยังที่นั่งว่าง`);
+            renderGuests();
+            show('เลือกที่นั่งว่างปลายทางเพื่อย้าย', 'good');
+        }
+        async function moveAssignment(guestId, oldSeatId, newSeatId) {
+            const guest = guests.find(item => item.id === guestId);
+            const oldSeat = seats.find(item => item.id === oldSeatId);
+            const newSeat = seats.find(item => item.id === newSeatId);
+            if (!guest || !oldSeat || !newSeat) return;
+            if (!confirm(`ย้าย ${guest.fullName || guestId}
+จาก ${oldSeat.displayLabel || oldSeatId}
+ไป ${newSeat.displayLabel || newSeatId} ใช่หรือไม่`)) return;
+            try {
+                const guestRef = doc(db, firebaseCollections.guests, guestId);
+                const oldRef = doc(db, firebaseCollections.seats, oldSeatId);
+                const newRef = doc(db, firebaseCollections.seats, newSeatId);
+                await runTransaction(db, async transaction => {
+                    const [guestSnap, oldSnap, newSnap] = await Promise.all([
+                        transaction.get(guestRef), transaction.get(oldRef), transaction.get(newRef)
+                    ]);
+                    if (!guestSnap.exists() || !oldSnap.exists() || !newSnap.exists()) throw Error('ไม่พบข้อมูลที่ต้องการย้าย');
+                    if (guestSnap.data().seatId !== oldSeatId || oldSnap.data().guestId !== guestId) throw Error('ข้อมูลที่นั่งเดิมเปลี่ยนแปลง กรุณา Reload');
+                    if (newSnap.data().guestId || newSnap.data().status === 'assigned') throw Error('ที่นั่งปลายทางถูกใช้แล้ว');
+                    transaction.update(oldRef, {guestId:null,guestName:null,status:'available',assignedAt:null,assignedBy:null,updatedAt:serverTimestamp(),updatedBy:user.uid,updatedByEmail:user.email||null});
+                    transaction.update(newRef, {guestId,guestName:guestSnap.data().fullName||guestId,status:'assigned',assignedAt:serverTimestamp(),assignedBy:user.uid,updatedAt:serverTimestamp(),updatedBy:user.uid,updatedByEmail:user.email||null});
+                    transaction.update(guestRef, {seatId:newSeatId,seatZone:newSnap.data().zoneCode,seatRow:newSnap.data().rowNumber,seatLabel:newSnap.data().seatLabel,seatingStatus:'assigned',seatAssignedAt:serverTimestamp(),seatAssignedBy:user.uid,updatedAt:serverTimestamp(),updatedBy:user.uid,updatedByEmail:user.email||null});
+                });
+                Object.assign(oldSeat,{guestId:null,guestName:null,status:'available'});
+                Object.assign(newSeat,{guestId,guestName:guest.fullName||guestId,status:'assigned'});
+                Object.assign(guest,{seatId:newSeatId,seatingStatus:'assigned'});
+                clearSelection(); renderAll(); show('ย้ายที่นั่งสำเร็จ','good');
+            } catch (error) { show(error.message,'bad'); }
+        }
+        async function removeAssignment() {
+            const seat = seats.find(item => item.id === currentModalSeatId);
+            if (!seat || !seat.guestId) return;
+            const guestId = seat.guestId;
+            const guest = guests.find(item => item.id === guestId);
+            if (!confirm(`นำ ${seat.guestName || guestId} ออกจาก ${seat.displayLabel || seat.id} ใช่หรือไม่`)) return;
+            try {
+                const seatRef = doc(db, firebaseCollections.seats, seat.id);
+                const guestRef = doc(db, firebaseCollections.guests, guestId);
+                await runTransaction(db, async transaction => {
+                    const [seatSnap, guestSnap] = await Promise.all([transaction.get(seatRef),transaction.get(guestRef)]);
+                    if (!seatSnap.exists() || !guestSnap.exists()) throw Error('ไม่พบข้อมูล Guest หรือ Seat');
+                    if (seatSnap.data().guestId !== guestId || guestSnap.data().seatId !== seat.id) throw Error('ข้อมูลเปลี่ยนแปลง กรุณา Reload');
+                    transaction.update(seatRef,{guestId:null,guestName:null,status:'available',assignedAt:null,assignedBy:null,updatedAt:serverTimestamp(),updatedBy:user.uid,updatedByEmail:user.email||null});
+                    transaction.update(guestRef,{seatId:null,seatZone:null,seatRow:null,seatLabel:null,seatingStatus:'unassigned',seatAssignedAt:null,seatAssignedBy:null,updatedAt:serverTimestamp(),updatedBy:user.uid,updatedByEmail:user.email||null});
+                });
+                Object.assign(seat,{guestId:null,guestName:null,status:'available'});
+                if (guest) Object.assign(guest,{seatId:null,seatingStatus:'unassigned'});
+                $('modal').classList.remove('show'); renderGuests(); renderAll(); show('นำแขกออกจากที่นั่งสำเร็จ','good');
+            } catch (error) { show(error.message,'bad'); }
+        }
+        function state(s) {return s.active === false || s.status === 'inactive' ? 'inactive' : s.guestId || s.status === 'assigned' ? 'assigned' : 'available'} function pad(v) {return String(v).padStart(2, '0')} function show(t, c) {$('message').textContent = t; $('message').className = 'msg show ' + c} function text(v) {return String(v ?? '').replace(/[&<>'"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[c]))}
     </script>
 </body>
 
